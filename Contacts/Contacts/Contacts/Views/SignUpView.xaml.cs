@@ -16,5 +16,11 @@ namespace AppXamarinCode.Views
         {
             InitializeComponent();
         }
+
+        private async void ButtonIn_ClickedAsync(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new SignInView());
+        }
     }
+
 }
