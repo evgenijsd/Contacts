@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Contacts.ViewModels
 {
-    class UserViewModel : INotifyPropertyChanged
+    public class UserViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private UserModel user;

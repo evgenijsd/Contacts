@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
+
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -23,9 +23,9 @@ namespace Contacts.Views
             labelUP.GestureRecognizers.Add(tapGesture);
         }
 
-        private async void ButtonMain_ClickedAsync(object sender, EventArgs e)
+        private void ButtonMain_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new MainListView());
+            Navigation.PushAsync(new MainListView());
         }
     }
 }

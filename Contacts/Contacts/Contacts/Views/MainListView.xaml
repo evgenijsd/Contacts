@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:viewmodels="clr-namespace:Contacts.Views" x:DataType="viewmodels:MainListView"
-             x:Class="Contacts.Views.MainListView"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Contacts.Views.MainListView" 
              Title="Main List">
     <ContentPage.ToolbarItems>
-        <ToolbarItem IconImageSource="logout.png" Clicked="LogOut_Clicked" />
+        <ToolbarItem IconImageSource="logout.png" Clicked="LogOut_ClickedAsync" />
         <ToolbarItem IconImageSource="settings.png" Clicked="Settings_Clicked" />
     </ContentPage.ToolbarItems>
     <Grid>
@@ -20,13 +20,13 @@
                         <DataTemplate>
                             <ImageCell ImageSource = "{Binding Image}" 
                                        Text="{Binding NickName}" 
-                                       Detail="{Binding Name, StringFormat='Флагман от компании {0}'}" 
+                                       Detail="{Binding Date, StringFormat='Информация о пользователе {0}'}" 
                                        TextColor="Red" DetailColor="Green" />
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
             </StackLayout>
         </ScrollView>
-        <ImageButton Source="add.png" Grid.Row="0" CornerRadius="40" HorizontalOptions="End" WidthRequest="80" HeightRequest="80" Margin="0,0,30,70" VerticalOptions="End" Clicked="AddProfile_Clicked"/>
+        <ImageButton Source="add.png" Grid.Row="0" CornerRadius="40" HorizontalOptions="End" WidthRequest="80" HeightRequest="80" Margin="0,0,30,70" VerticalOptions="End" Clicked="LogOut_ClickedAsync" />
     </Grid>
 </ContentPage>

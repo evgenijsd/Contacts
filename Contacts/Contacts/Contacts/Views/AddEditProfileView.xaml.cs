@@ -14,7 +14,7 @@ namespace Contacts.Views
     {
         public AddEditProfileView()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

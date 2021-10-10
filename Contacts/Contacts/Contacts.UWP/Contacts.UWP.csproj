@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{84E85075-91A6-4834-8E6C-CF8A21607C6C}</ProjectGuid>
+    <ProjectGuid>{2E6BFEF5-708F-4F8A-8469-4AEE6EB70F49}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Contacts.UWP</RootNamespace>
@@ -156,7 +156,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Contacts\Contacts.csproj">
-      <Project>{64FF35D5-D4E8-4B62-BBFC-EEF5CBDFB7E2}</Project>
+      <Project>{6B1BEE4F-CE7C-4894-9919-0F1663449205}</Project>
       <Name>Contacts</Name>
     </ProjectReference>
   </ItemGroup>

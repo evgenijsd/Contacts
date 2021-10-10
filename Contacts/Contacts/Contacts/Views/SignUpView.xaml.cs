@@ -17,10 +17,9 @@ namespace Contacts.Views
             InitializeComponent();
         }
 
-        private async void ButtonIn_ClickedAsync(object sender, EventArgs e)
+        private void ButtonIn_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new SignInView());
+            Navigation.PushAsync(new SignInView());
         }
     }
-
 }

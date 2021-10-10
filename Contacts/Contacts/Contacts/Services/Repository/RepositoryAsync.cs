@@ -23,7 +23,7 @@ namespace Contacts.Services.Repository
                 await database.CreateTableAsync<ContactModel>();
 
                 return database;
-            } ).Value.Result;
+            }).Value.Result;
         }
 
         public async Task<int> AddAsync<T>(T entity) where T : new()

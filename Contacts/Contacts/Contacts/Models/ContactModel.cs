@@ -5,7 +5,6 @@ using System.Text;
 
 namespace Contacts.Models
 {
-    [Table("Contacts")]
     public class ContactModel
     {
         [PrimaryKey, AutoIncrement, Column("_id")]

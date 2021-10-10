@@ -1,5 +1,4 @@
-﻿using Contacts.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,3 +13,4 @@ namespace Contacts.Services.Repository
         Task<int> UpdateAsync<T>(T entity) where T : new();
     }
 }
+
