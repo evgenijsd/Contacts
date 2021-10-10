@@ -20,11 +20,11 @@ namespace Contacts.Views
 
             Contacts = new List<Contact>
             {
-            new Contact {ProfileId = 0, Image="user.png", NickName="User 1", Name="Samsung", Description="48000",  Date=DateTime.Now},
-            new Contact {ProfileId = 0, Image="user.png", NickName="User 2", Name="Samsung", Description="48000",  Date=DateTime.Now},
-            new Contact {ProfileId = 0, Image="user.png", NickName="User 3", Name="Samsung", Description="48000",  Date=DateTime.Now},
-            new Contact {ProfileId = 0, Image="user.png", NickName="User 4", Name="Samsung", Description="48000",  Date=DateTime.Now},
-            new Contact {ProfileId = 0, Image="user.png", NickName="User 5", Name="Samsung", Description="48000",  Date=DateTime.Now}
+            new Contact {ProfileId = 0, Image="user.png", NickName="UserNick 1", Name="UserName", Description="48000",  Date=DateTime.Now},
+            new Contact {ProfileId = 0, Image="user.png", NickName="UserNick 2", Name="UserName", Description="48000",  Date=DateTime.Now},
+            new Contact {ProfileId = 0, Image="user.png", NickName="UserNick 3", Name="UserName", Description="48000",  Date=DateTime.Now},
+            new Contact {ProfileId = 0, Image="user.png", NickName="UserNick 4", Name="UserName", Description="48000",  Date=DateTime.Now},
+            new Contact {ProfileId = 0, Image="user.png", NickName="UserNick 5", Name="UserName", Description="48000",  Date=DateTime.Now}
             };
 
             this.BindingContext = this;
@@ -41,11 +41,6 @@ namespace Contacts.Views
             public DateTime Date { get; set; }
         }
 
-        private async Task AddProfile_ClickedAsync(object sender, EventArgs e)
-        {
-            await Navigation.PushAsync(new AddEditProfileView());
-        }
-
         protected void LogOut_ClickedAsync(object sender, EventArgs e)
         {
             Navigation.PushAsync(new SignInView());
@@ -54,6 +49,11 @@ namespace Contacts.Views
         private void Settings_Clicked(object sender, EventArgs e)
         {
             Navigation.PushAsync(new SettingsView());
+        }
+
+        private void AddProfile_Clicked(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new AddEditProfileView());
         }
     }
 }
