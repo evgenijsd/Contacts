@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Contacts.Views.SettingsView" 
+             Title="Settings">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="save.png"/>
+    </ContentPage.ToolbarItems>
+    <StackLayout Padding="30,30">
+        <Label x:Name="messageLabel" Text="SORT MODE" HorizontalOptions="Center" FontSize="Large"/>
+        <RadioButton  GroupName="Sort" Content="Sort by Name" />
+        <RadioButton  GroupName="Sort" Content="Sort by NickName" />
+        <RadioButton  GroupName="Sort" Content="Sort by Date" />
+    </StackLayout>
+</ContentPage>
