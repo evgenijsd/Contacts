@@ -1,33 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="AppXamarinCode.Views.AddEditProfileView">
+             x:Class="Contacts.Views.AddEditProfileView"
+             Title="Add Profile">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="save.png"/>
+    </ContentPage.ToolbarItems>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="11*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="3*"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" ColumnSpacing="0">
-            <Grid.ColumnDefinitions>
-				<ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="5*" />
-                <ColumnDefinition Width="1*" />
-            </Grid.ColumnDefinitions>
-            <StackLayout Grid.Column="0" BackgroundColor="#A08AE6" Spacing="0">
-                <ImageButton Source="back.png" BackgroundColor="#A08AE6" Margin="17,17,17,17"/>
-            </StackLayout>
-            <StackLayout Grid.Column="1" BackgroundColor="#A08AE6" Spacing="0">
-                <Label Text="Add Profile" Margin="10,10,0,10" VerticalOptions="Center" TextColor="#DBF3F0" FontSize="Large"/>
-            </StackLayout>
-            <StackLayout Grid.Column="2" BackgroundColor="#A08AE6" Spacing="0">
-                <ImageButton Source="save.png" BackgroundColor="#A08AE6" Margin="15,15,20,15"/>
-            </StackLayout>
-        </Grid>
-        <StackLayout Grid.Row="1" Padding="20,0">
-            <Image Source="user.png" Margin="50,10,70,0" />
+        <Image Grid.Row="0" Source="user.png" Margin="0,30,0,0" />
+        <StackLayout Grid.Row="1" Padding="30,10">
             <Entry x:Name="nickEntry" Placeholder="NickName" />
             <Entry x:Name="nameEntry" Placeholder="Name" />
-            <Editor HeightRequest="170" MaxLength="120" Placeholder="Description" BackgroundColor="LightGray" Margin="0,20" />
         </StackLayout>
+        <Editor Grid.Row="2" HeightRequest="170" MaxLength="120" Placeholder="Description" BackgroundColor="LightGray" Margin="30,0,30,30" />
     </Grid>
 </ContentPage>

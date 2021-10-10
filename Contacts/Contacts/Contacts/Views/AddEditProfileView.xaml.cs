@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace AppXamarinCode.Views
+namespace Contacts.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AddEditProfileView : ContentPage
     {
         public AddEditProfileView()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

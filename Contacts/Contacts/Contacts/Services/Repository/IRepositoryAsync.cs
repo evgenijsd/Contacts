@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Contacts.Services
+namespace Contacts.Services.Repository
 {
     public interface IRepositoryAsync
     {

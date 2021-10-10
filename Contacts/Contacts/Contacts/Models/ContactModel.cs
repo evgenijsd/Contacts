@@ -6,11 +6,11 @@ using System.Text;
 namespace Contacts.Models
 {
     [Table("Contacts")]
-    class ContactModel
+    public class ContactModel
     {
         [PrimaryKey, AutoIncrement, Column("_id")]
         public int ProfileId { get; set; }
-        public byte[] Image { get; set; }
+        public string Image { get; set; }
         public string NickName { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }

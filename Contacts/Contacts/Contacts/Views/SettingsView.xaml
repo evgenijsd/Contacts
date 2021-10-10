@@ -1,23 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="AppXamarinCode.Views.SettingsView">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="8*"/>
-            <RowDefinition Height="3*"/>
-        </Grid.RowDefinitions>
-        <StackLayout Grid.Row="0" BackgroundColor="#A08AE6">
-            <Label Text="SignUp" Margin="10,10,0,10" VerticalOptions="Center" TextColor="#DBF3F0" FontSize="Large"/>
-        </StackLayout>
-        <StackLayout Grid.Row="1" Padding="20,0" VerticalOptions="Center">
-            <Entry x:Name="usernameEntry" Placeholder="Username" />
-            <Entry x:Name="passwordEntry" Placeholder="Password" IsPassword="true" />
-        </StackLayout>
-        <StackLayout Grid.Row="2" Padding="20,0">
-            <Button Text="Login" BackgroundColor="#E65B30"/>
-            <Label x:Name="messageLabel" Text="SINGIN" HorizontalOptions="Center"/>
-        </StackLayout>
-    </Grid>
+             x:Class="Contacts.Views.SettingsView"
+             Title="Settings">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="save.png"/>
+    </ContentPage.ToolbarItems>
+    <StackLayout Padding="30,30">
+        <Label x:Name="messageLabel" Text="SORT MODE" HorizontalOptions="Center" FontSize="Large"/>
+        <RadioButton  GroupName="Sort" Content="Sort by Name" />
+        <RadioButton  GroupName="Sort" Content="Sort by NickName" />
+        <RadioButton  GroupName="Sort" Content="Sort by Date" />
+    </StackLayout>
 </ContentPage>

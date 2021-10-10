@@ -1,7 +1,5 @@
-﻿using AppXamarinCode.Views;
-using System;
+﻿using Contacts.Views;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace Contacts
 {

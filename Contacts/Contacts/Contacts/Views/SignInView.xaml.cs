@@ -7,7 +7,7 @@ using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace AppXamarinCode.Views
+namespace Contacts.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SignInView : ContentPage

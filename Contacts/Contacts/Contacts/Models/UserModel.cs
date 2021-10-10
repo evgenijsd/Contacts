@@ -6,7 +6,7 @@ using System.Text;
 namespace Contacts.Models
 {
     [Table("Users")]
-    class UserModel
+    public class UserModel
     {
         [PrimaryKey, AutoIncrement, Column("_id")]
         public int UserId { get; set; }
