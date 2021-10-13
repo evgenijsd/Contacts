@@ -11,7 +11,7 @@ namespace Contacts.Models
         [PrimaryKey, AutoIncrement, Column("_id")]
         public int UserId { get; set; }
         public string Login { get; set; }
-        public string Passsword { get; set; }
+        public string Password { get; set; }
 
         public virtual ICollection<ContactModel> Contscts { get; set; }
     }
