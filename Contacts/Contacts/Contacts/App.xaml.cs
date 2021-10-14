@@ -1,4 +1,6 @@
-﻿using Contacts.ViewModels;
+﻿using Contacts.Services.Repository;
+using Contacts.Services.SignUp;
+using Contacts.ViewModels;
 using Contacts.Views;
 using Prism.Ioc;
 using Prism.Unity;
@@ -24,6 +26,9 @@ namespace Contacts
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             //containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();
+            //containerRegistry.RegisterInstance<IRepositoryAsync>(Container.Resolve<RepositoryAsync>());
+            //containerRegistry.RegisterInstance<IAddUserBase>(Container.Resolve<AddUserBase>());
+
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<SignInView, SignInViewModel>();

@@ -21,7 +21,7 @@
                         <DataTemplate>
                             <ViewCell>
                                 <ViewCell.ContextActions>
-                                    <MenuItem Text="EDIT" Command="{prism:NavigateTo 'AddEditProfileView'}"/>
+                                    <MenuItem Text="EDIT" Command="{Binding OnEditCommand}"/>
                                     <MenuItem Text="DELETE" />
                                 </ViewCell.ContextActions>
                                 <ViewCell.View>

@@ -12,6 +12,7 @@ namespace Contacts.ViewModels
     {
         private INavigationService _navigationService { get; }
         private IPageDialogService _dialogs { get; }
+        public DelegateCommand OnEditCommand { get; set; }
 
         public MainListViewModel(INavigationService navigationService, IPageDialogService dialogs)
         {
@@ -19,6 +20,7 @@ namespace Contacts.ViewModels
             _dialogs = dialogs;
 
             NavigateCommand = new DelegateCommand<string>(OnNavigateCommandExecuted);
+            OnEditCommand = new DelegateCommand(OnEditAction);
         }
 
         private string _message;
@@ -48,6 +50,11 @@ namespace Contacts.ViewModels
             {
                 await _dialogs.DisplayAlertAsync("Error", result.Exception.Message, "Ok");
             }
+        }
+
+        private async void OnEditAction()
+        {
+            await _navigationService.NavigateAsync("AddEditProfileView");
         }
 
         #endregion

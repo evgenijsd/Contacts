@@ -32,7 +32,6 @@ namespace Contacts.ViewModels
             get => _message;
             set => SetProperty(ref _message, value);
         }
-        private bool _isNavigating;
 
         #region Public
         public DelegateCommand<string> NavigateCommand { get; }
@@ -54,6 +53,7 @@ namespace Contacts.ViewModels
 
         private async void OnNavigateCommandExecuted(string path)
         {
+       
             var result = await _navigationService.NavigateAsync(path);
 
             if (!result.Success)
