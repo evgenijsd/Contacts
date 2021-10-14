@@ -6,10 +6,10 @@ using System.Text;
 namespace Contacts.Models
 {
     [Table("Users")]
-    public class UserModel
+    public class UserModel : IEntitiy
     {
         [PrimaryKey, AutoIncrement, Column("_id")]
-        public int UserId { get; set; }
+        public int Id { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
 

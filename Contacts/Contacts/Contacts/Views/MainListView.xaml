@@ -1,11 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
              x:Class="Contacts.Views.MainListView" 
              Title="Main List">
     <ContentPage.ToolbarItems>
-        <ToolbarItem IconImageSource="logout.png" Clicked="LogOut_ClickedAsync" />
-        <ToolbarItem IconImageSource="settings.png" Clicked="Settings_Clicked" />
+        <ToolbarItem IconImageSource="logout.png" Command="{prism:NavigateTo '/NavigationPage/SignInView'}" />
+        <ToolbarItem IconImageSource="settings.png" Command="{prism:NavigateTo 'SettingsView'}" />
     </ContentPage.ToolbarItems>
     <Grid>
         <Grid.RowDefinitions>
@@ -20,7 +21,7 @@
                         <DataTemplate>
                             <ViewCell>
                                 <ViewCell.ContextActions>
-                                    <MenuItem Text="EDIT" />
+                                    <MenuItem Text="EDIT" Command="{prism:NavigateTo 'AddEditProfileView'}"/>
                                     <MenuItem Text="DELETE" />
                                 </ViewCell.ContextActions>
                                 <ViewCell.View>
@@ -45,6 +46,6 @@
                 </ListView>
             </StackLayout>
         </ScrollView>
-        <ImageButton Source="add.png" Grid.Row="0" CornerRadius="40" HorizontalOptions="End" WidthRequest="80" HeightRequest="80" Margin="0,0,30,70" VerticalOptions="End" Clicked="AddProfile_Clicked" />
+        <ImageButton Source="add.png" Grid.Row="0" CornerRadius="40" HorizontalOptions="End" WidthRequest="80" HeightRequest="80" Margin="0,0,30,70" VerticalOptions="End" Command="{prism:NavigateTo 'AddEditProfileView'}"/>
     </Grid>
 </ContentPage>

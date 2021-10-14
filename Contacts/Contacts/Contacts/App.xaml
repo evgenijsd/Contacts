@@ -4,6 +4,9 @@
              xmlns:prism="clr-namespace:Prism.Unity;assembly=Prism.Unity.Forms"
              x:Class="Contacts.App">
     <prism:PrismApplication.Resources>
-
+        <Color x:Key="PrimaryColor">#7E7D81</Color>
+        <Color x:Key="AccentColor">#00A5F2</Color>
+        <Color x:Key="TextColor">White</Color>
+        
     </prism:PrismApplication.Resources>
 </prism:PrismApplication>

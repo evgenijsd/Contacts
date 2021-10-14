@@ -5,10 +5,10 @@ using System.Text;
 
 namespace Contacts.Models
 {
-    public class ContactModel
+    public class ContactModel : IEntitiy
     {
         [PrimaryKey, AutoIncrement, Column("_id")]
-        public int ProfileId { get; set; }
+        public int Id { get; set; }
         public string Image { get; set; }
         public string NickName { get; set; }
         public string Name { get; set; }

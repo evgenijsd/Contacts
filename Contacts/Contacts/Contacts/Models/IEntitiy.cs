@@ -4,7 +4,8 @@ using System.Text;
 
 namespace Contacts.Models
 {
-    public interface IEntities
+    public interface IEntitiy
     {
+        int Id { get; set; }
     }
 }
