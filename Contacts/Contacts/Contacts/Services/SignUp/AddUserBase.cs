@@ -10,7 +10,7 @@ namespace Contacts.Services.SignUp
 {
     public class AddUserBase : IAddUserBase
     {
-        private IRepositoryAsync _repository;
+        private IRepository _repository;
         private UserModel _user;
         private List<UserModel> _users;
 
@@ -25,7 +25,7 @@ namespace Contacts.Services.SignUp
             set => _user = value; 
         }
 
-        public AddUserBase(IRepositoryAsync repository, UserModel user)
+        public AddUserBase(IRepository repository, UserModel user)
         {
             _repository = repository;
             _user = user;

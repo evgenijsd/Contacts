@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Contacts.Services.Repository
 {
-    public interface IRepositoryAsync
+    public interface IRepository
     {
         Task<int> AddAsync<T>(T entity) where T : IEntity, new();
         Task<List<T>> GetAllAsync<T>() where T : IEntity, new();

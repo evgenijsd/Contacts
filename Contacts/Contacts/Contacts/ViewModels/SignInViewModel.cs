@@ -1,4 +1,5 @@
 ﻿using Contacts.Models;
+using Contacts.Services.SignIn;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -13,55 +14,68 @@ using Xamarin.Forms;
 
 namespace Contacts.ViewModels
 {
-    public class SignInViewModel : BindableBase, IInitialize
+    public class SignInViewModel : BindableBase
     {
         private INavigationService _navigationService { get; }
         private IPageDialogService _dialogs { get; }
+        private ICheckAuthorization _checkAuthorization;
+        public DelegateCommand MainListCommand { get; set; }
+        public DelegateCommand SignUpCommand { get; set; }
+        public DelegateCommand SetCommand { get; set; }
 
-        public SignInViewModel(INavigationService navigationService, IPageDialogService dialogs)
+        public SignInViewModel(INavigationService navigationService, IPageDialogService dialogs, ICheckAuthorization checkAuthorization)
         {
             _navigationService = navigationService;
             _dialogs = dialogs;
+            _checkAuthorization = checkAuthorization;
+            UserId = _checkAuthorization.UserId;
 
-            NavigateCommand = new DelegateCommand<string>(OnNavigateCommandExecuted);
+            MainListCommand = new DelegateCommand(MainListAction);
+            SignUpCommand = new DelegateCommand(SignUpAction);
+            SetCommand = new DelegateCommand(SetAction);
         }
 
-        private string _message;
-        public string Message
+        private int _userId;
+        public int UserId
         {
-            get => _message;
-            set => SetProperty(ref _message, value);
+            get => _userId;
+            set => SetProperty(ref _userId, value);
         }
 
         #region Public
-        public DelegateCommand<string> NavigateCommand { get; }
 
-        public async void Initialize(INavigationParameters parameters)
-        {
-            await Task.Delay(TimeSpan.FromSeconds(5));
-            Message = "Hello from IInitialize. This won't fire again.";
-        }
 
         #endregion
 
 
         #region Overrides
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
+
+            if (args.PropertyName == nameof(UserId))
+            {
+                _checkAuthorization.UserId = UserId;
+            }
+        }
         #endregion
 
         #region Private
 
-
-        private async void OnNavigateCommandExecuted(string path)
+        private async void MainListAction()
         {
-       
-            var result = await _navigationService.NavigateAsync(path);
-
-            if (!result.Success)
-            {
-                await _dialogs.DisplayAlertAsync("Error", result.Exception.Message, "Ok");
-            }
+            await _navigationService.NavigateAsync("/NavigationPage/MainListView");
         }
 
+        private async void SignUpAction()
+        {
+            await _navigationService.NavigateAsync("SignUpView");
+        }
+
+        private void SetAction()
+        {
+            UserId = 10;
+        }
         #endregion
     }
 }
