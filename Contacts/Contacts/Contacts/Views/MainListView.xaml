@@ -5,7 +5,7 @@
              x:Class="Contacts.Views.MainListView" 
              Title="Main List">
     <ContentPage.ToolbarItems>
-        <ToolbarItem IconImageSource="logout.png" Command="{prism:NavigateTo '/NavigationPage/SignInView'}" />
+        <ToolbarItem IconImageSource="logout.png" Command="{prism:NavigateTo '/NavigationPage/SignInView?UserId=0'}" />
         <ToolbarItem IconImageSource="settings.png" Command="{prism:NavigateTo 'SettingsView'}" />
     </ContentPage.ToolbarItems>
     <Grid>
@@ -21,7 +21,7 @@
                         <DataTemplate>
                             <ViewCell>
                                 <ViewCell.ContextActions>
-                                    <MenuItem Text="EDIT" Command="{Binding OnEditCommand}"/>
+                                    <MenuItem Text="EDIT" Command="{prism:NavigateTo 'AddEditProfileView'}" />
                                     <MenuItem Text="DELETE" />
                                 </ViewCell.ContextActions>
                                 <ViewCell.View>
@@ -46,6 +46,6 @@
                 </ListView>
             </StackLayout>
         </ScrollView>
-        <ImageButton Source="add.png" Grid.Row="0" CornerRadius="40" HorizontalOptions="End" WidthRequest="80" HeightRequest="80" Margin="0,0,30,70" VerticalOptions="End" Command="{prism:NavigateTo 'AddEditProfileView'}"/>
+        <ImageButton Source="add.png" Grid.Row="0" CornerRadius="40" HorizontalOptions="End" WidthRequest="80" HeightRequest="80" Margin="0,0,30,70" VerticalOptions="End" Command="{prism:NavigateTo 'AddEditProfileView'}" />
     </Grid>
 </ContentPage>

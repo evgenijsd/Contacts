@@ -14,7 +14,7 @@ using Xamarin.Forms;
 
 namespace Contacts.ViewModels
 {
-    public class SignInViewModel : BindableBase
+    public class SignInViewModel : BindableBase, INavigationAware, IInitialize
     {
         private INavigationService _navigationService { get; }
         private IPageDialogService _dialogs { get; }
@@ -43,7 +43,26 @@ namespace Contacts.ViewModels
         }
 
         #region Public
+        public void OnNavigatedFrom(INavigationParameters parameters)
+        {
 
+        }
+
+        public async void OnNavigatedTo(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("UserId"))
+            {
+                UserId = int.Parse(parameters.GetValue<string>("UserId"));
+                //await _dialogs.DisplayAlertAsync("Error", UserId.ToString(), "Ok");
+            }
+        }
+
+        public async void Initialize(INavigationParameters parameters)
+        {
+            await Task.Delay(TimeSpan.FromSeconds(2));
+            //await _dialogs.DisplayAlertAsync("Error", "save", "Ok");
+            if (UserId > 0) await _navigationService.NavigateAsync("/NavigationPage/MainListView");
+        }
 
         #endregion
 
@@ -76,6 +95,10 @@ namespace Contacts.ViewModels
         {
             UserId = 10;
         }
+
+
+
+
         #endregion
     }
 }
