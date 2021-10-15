@@ -38,7 +38,7 @@ namespace Contacts.ViewModels
 
         public void Initialize(INavigationParameters parameters)
         {
-            throw new NotImplementedException();
+            ;
         }
 
         public async Task InitializeAsync(INavigationParameters parameters)

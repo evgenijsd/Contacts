@@ -12,7 +12,7 @@ using Xamarin.Forms;
 
 namespace Contacts.ViewModels
 {
-    public class MainListViewModel : BindableBase
+    public class MainListViewModel : BindableBase, INavigationAware, IInitialize
     {
         private INavigationService _navigationService { get; }
         private IPageDialogService _dialogs { get; }
@@ -36,7 +36,26 @@ namespace Contacts.ViewModels
             };
         }
 
+        private int _userId;
+        public int UserId
+        {
+            get => _userId;
+            set => SetProperty(ref _userId, value);
+        }
+
         #region Public
+        public void OnNavigatedFrom(INavigationParameters parameters)
+        {
+        }
+
+        public void OnNavigatedTo(INavigationParameters parameters)
+        {
+            UserId = parameters.GetValue<int>("id");
+        }
+        public async void Initialize(INavigationParameters parameters)
+        {
+            await _dialogs.DisplayAlertAsync("Alert", "login id", "Ok");
+        }
         #endregion
 
 
@@ -48,6 +67,10 @@ namespace Contacts.ViewModels
         {
             await _navigationService.NavigateAsync("AddEditProfileView");
         }
+
+
+
+
         #endregion
     }
 }

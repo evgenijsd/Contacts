@@ -7,7 +7,9 @@ using Prism.Navigation;
 using Prism.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -25,19 +27,40 @@ namespace Contacts.ViewModels
         public DelegateCommand MainListCommand { get; set; }
         public DelegateCommand SignUpCommand { get; set; }
         public DelegateCommand SetCommand { get; set; }
+        
 
         public SignInViewModel(INavigationService navigationService, IPageDialogService dialogs, ICheckAuthorization checkAuthorization, IRepository repository, UserModel user)
         {
             _navigationService = navigationService;
+            _repository = repository;
             _dialogs = dialogs;
             _checkAuthorization = checkAuthorization;
             UserId = _checkAuthorization.UserId;
             _user = user;
 
-
-            MainListCommand = new DelegateCommand(MainListAction);
+            MainListCommand = new DelegateCommand(MainListAction).ObservesCanExecute(() => IsActive);
             SignUpCommand = new DelegateCommand(SignUpAction);
-            SetCommand = new DelegateCommand(SetAction);
+        }
+
+        #region Property
+        private ObservableCollection<UserModel> _userList;
+        public ObservableCollection<UserModel> UserList
+        {
+            get => _userList;
+            set => SetProperty(ref _userList, value);
+        }
+
+        private string _login = string.Empty;
+        public string Login
+        {
+            get => _login;
+            set => SetProperty(ref _login, value);
+        }
+        private string _password = string.Empty;
+        public string Password
+        {
+            get => _password;
+            set => SetProperty(ref _password, value);
         }
 
         private int _userId;
@@ -53,12 +76,13 @@ namespace Contacts.ViewModels
             set => SetProperty(ref _user, value);
         }
 
-        private bool _isActive;
+        private bool _isActive = false;
         public bool IsActive
         {
             get { return _isActive; }
             set { SetProperty(ref _isActive, value); }
         }
+        #endregion
 
         #region Public
         public void OnNavigatedFrom(INavigationParameters parameters)
@@ -71,14 +95,21 @@ namespace Contacts.ViewModels
             if (parameters.ContainsKey("UserId"))
             {
                 UserId = int.Parse(parameters.GetValue<string>("UserId"));
-                //await _dialogs.DisplayAlertAsync("Error", UserId.ToString(), "Ok");
+                _checkAuthorization.UserId = UserId;
             }
         }
 
         public async void Initialize(INavigationParameters parameters)
         {
+            var userList = await _repository.GetAllAsync<UserModel>();
+            UserList = new ObservableCollection<UserModel>(userList);
+            if (UserId > 0)
+            {
+                User = UserList.FirstOrDefault(x => x.Id == UserId);
+                Login = User.Login;
+                Password = User.Password;
+            }
             await Task.Delay(TimeSpan.FromSeconds(2));
-            //await _dialogs.DisplayAlertAsync("Error", "save", "Ok");
             if (UserId > 0) await _navigationService.NavigateAsync("/NavigationPage/MainListView");
         }
 
@@ -90,13 +121,13 @@ namespace Contacts.ViewModels
         {
             base.OnPropertyChanged(args);
 
-            if (args.PropertyName == nameof(UserId))
+            if (args.PropertyName == nameof(Login))
             {
-                _checkAuthorization.UserId = UserId;
-            }
-            if (args.PropertyName == nameof(User))
+                IsActive = Login != string.Empty && Password != string.Empty;
+            } 
+            if (args.PropertyName == nameof(Password))
             {
-                IsActive = User.Login + User.Password != string.Empty;
+                IsActive = Login != string.Empty && Password != string.Empty;
             }
         }
         #endregion
@@ -105,22 +136,25 @@ namespace Contacts.ViewModels
 
         private async void MainListAction()
         {
-            await _navigationService.NavigateAsync("/NavigationPage/MainListView");
+            User = UserList.FirstOrDefault(x => x.Login == Login);
+            if (User != null && User.Login == Login && User.Password == Password)
+            {
+                _checkAuthorization.UserId = User.Id;
+                await _navigationService.NavigateAsync("/NavigationPage/MainListView");
+            }
+            else
+            {
+                await _dialogs.DisplayAlertAsync("Alert", "Invalid login or password!", "Ok");
+                Password = string.Empty;
+            }
+            //
+            //await _navigationService.NavigateAsync("/NavigationPage/MainListView");
         }
 
         private async void SignUpAction()
         {
             await _navigationService.NavigateAsync("SignUpView");
         }
-
-        private async void SetAction()
-        {
-            UserId = 10;
-            await _navigationService.NavigateAsync("MainPage");
-        }
-
-
-
 
         #endregion
     }
