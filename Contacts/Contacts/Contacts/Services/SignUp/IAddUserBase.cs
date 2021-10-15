@@ -8,7 +8,6 @@ namespace Contacts.Services.SignUp
 {
     public interface IAddUserBase
     {
-        UserModel User { get; set; }
-        Task<int> AddUserBaseAsync(UserModel entity);
+        Task<int> AddUserBaseAsync(UserModel User);
     }
 }

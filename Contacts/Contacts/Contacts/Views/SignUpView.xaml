@@ -11,10 +11,12 @@
         <StackLayout Grid.Row="0" Padding="20,0" VerticalOptions="Center">
             <Entry Placeholder="Login" Text = "{Binding User.Login}" />
             <Entry Placeholder="Password" IsPassword="true" Text = "{Binding User.Password}"/>
-            <Entry Placeholder="Confirm Password" IsPassword="true" />
+            <Entry Placeholder="Confirm Password" IsPassword="true" Text = "{Binding CheckPassword}"/>
         </StackLayout>
         <StackLayout Grid.Row="1" Padding="20,0">
-            <Button Text="SIGN UP" BackgroundColor="#E65B30" Command="{Binding NavigateCommand}" CommandParameter="/NavigationPage/SignInView"/>
+            <Label Text="{Binding Text}" />
+            <Button Text="SIGN UP" BackgroundColor="#E65B30" Command="{Binding ButtonClickCommand}" CommandParameter="Hello"/>
+            
         </StackLayout>
     </Grid>
 </ContentPage>

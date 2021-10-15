@@ -1,4 +1,5 @@
 ﻿using Contacts.Models;
+using Contacts.Services.Repository;
 using Contacts.Services.SignIn;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -19,16 +20,20 @@ namespace Contacts.ViewModels
         private INavigationService _navigationService { get; }
         private IPageDialogService _dialogs { get; }
         private ICheckAuthorization _checkAuthorization;
+        private UserModel _user;
+        private IRepository _repository { get; }
         public DelegateCommand MainListCommand { get; set; }
         public DelegateCommand SignUpCommand { get; set; }
         public DelegateCommand SetCommand { get; set; }
 
-        public SignInViewModel(INavigationService navigationService, IPageDialogService dialogs, ICheckAuthorization checkAuthorization)
+        public SignInViewModel(INavigationService navigationService, IPageDialogService dialogs, ICheckAuthorization checkAuthorization, IRepository repository, UserModel user)
         {
             _navigationService = navigationService;
             _dialogs = dialogs;
             _checkAuthorization = checkAuthorization;
             UserId = _checkAuthorization.UserId;
+            _user = user;
+
 
             MainListCommand = new DelegateCommand(MainListAction);
             SignUpCommand = new DelegateCommand(SignUpAction);
@@ -42,13 +47,26 @@ namespace Contacts.ViewModels
             set => SetProperty(ref _userId, value);
         }
 
+        public UserModel User
+        {
+            get => _user;
+            set => SetProperty(ref _user, value);
+        }
+
+        private bool _isActive;
+        public bool IsActive
+        {
+            get { return _isActive; }
+            set { SetProperty(ref _isActive, value); }
+        }
+
         #region Public
         public void OnNavigatedFrom(INavigationParameters parameters)
         {
 
         }
 
-        public async void OnNavigatedTo(INavigationParameters parameters)
+        public void OnNavigatedTo(INavigationParameters parameters)
         {
             if (parameters.ContainsKey("UserId"))
             {
@@ -76,6 +94,10 @@ namespace Contacts.ViewModels
             {
                 _checkAuthorization.UserId = UserId;
             }
+            if (args.PropertyName == nameof(User))
+            {
+                IsActive = User.Login + User.Password != string.Empty;
+            }
         }
         #endregion
 
@@ -91,9 +113,10 @@ namespace Contacts.ViewModels
             await _navigationService.NavigateAsync("SignUpView");
         }
 
-        private void SetAction()
+        private async void SetAction()
         {
             UserId = 10;
+            await _navigationService.NavigateAsync("MainPage");
         }
 
 

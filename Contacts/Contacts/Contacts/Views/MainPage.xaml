@@ -2,12 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
-             x:Class="Contacts.Views.MainListView" 
-             Title="Main List">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem IconImageSource="logout.png" Command="{prism:NavigateTo '/NavigationPage/SignInView?UserId=0'}" />
-        <ToolbarItem IconImageSource="settings.png" Command="{prism:NavigateTo 'SettingsView'}" />
-    </ContentPage.ToolbarItems>
+             x:Class="Contacts.Views.MainPage"
+             Title="Users Page">
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -16,13 +13,13 @@
             <StackLayout>
                 <ListView x:Name="contactsList" 
                           HasUnevenRows="True" 
-                          ItemsSource="{Binding Contacts}" >
+                          ItemsSource="{Binding UserList}" >
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
                                 <ViewCell.ContextActions>
                                     <MenuItem Text="EDIT" Command="{prism:NavigateTo 'AddEditProfileView'}"/>
-                                    <MenuItem Text="DELETE" Command="{prism:NavigateTo 'AddEditProfileView'}" />
+                                    <MenuItem Text="DELETE"  />
                                 </ViewCell.ContextActions>
                                 <ViewCell.View>
                                     <Grid>
@@ -30,13 +27,15 @@
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="3*" />
                                         </Grid.ColumnDefinitions>
-                                        <StackLayout HeightRequest="70" Margin="10,10,10,10">
-                                            <Image Source="{Binding Image}"/>
+                                        <StackLayout HeightRequest="50" >
+                                            <Label Text="Id" FontSize="Medium" />
+                                            <Label Text="Login" FontSize="Small" />
+                                            <Label Text="Password" FontSize="Small" />
                                         </StackLayout>
                                         <StackLayout Grid.Column="1">
-                                            <Label Text="{Binding Name}" FontSize="Medium" />
-                                            <Label Text="{Binding NickName}" FontSize="Small" />
-                                            <Label Text="{Binding Date}" FontSize="Small" />
+                                            <Label Text="{Binding Id}" FontSize="Medium" />
+                                            <Label Text="{Binding Login}" FontSize="Small" />
+                                            <Label Text="{Binding Password}" FontSize="Small" />
                                         </StackLayout>
                                     </Grid>
                                 </ViewCell.View>
@@ -48,4 +47,5 @@
         </ScrollView>
         <ImageButton Source="add.png" Grid.Row="0" CornerRadius="40" HorizontalOptions="End" WidthRequest="80" HeightRequest="80" Margin="0,0,30,70" VerticalOptions="End" Command="{prism:NavigateTo 'AddEditProfileView'}" />
     </Grid>
+
 </ContentPage>
