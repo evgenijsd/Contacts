@@ -46,6 +46,7 @@
             </StackLayout>
         </ScrollView>
         <ImageButton Source="add.png" Grid.Row="0" CornerRadius="40" HorizontalOptions="End" WidthRequest="80" HeightRequest="80" Margin="0,0,30,70" VerticalOptions="End" Command="{prism:NavigateTo 'AddEditProfileView'}" />
+        
     </Grid>
 
 </ContentPage>

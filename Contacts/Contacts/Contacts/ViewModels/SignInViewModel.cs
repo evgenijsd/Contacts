@@ -6,14 +6,10 @@ using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
-using Xamarin.Forms;
 
 namespace Contacts.ViewModels
 {
@@ -21,7 +17,7 @@ namespace Contacts.ViewModels
     {
         private INavigationService _navigationService { get; }
         private IPageDialogService _dialogs { get; }
-        private ICheckAuthorization _checkAuthorization;
+        private ICheckAuthorization _checkAuthorization { get; set; }
         private UserModel _user;
         private IRepository _repository { get; }
         public DelegateCommand MainListCommand { get; set; }
@@ -97,6 +93,14 @@ namespace Contacts.ViewModels
                 UserId = int.Parse(parameters.GetValue<string>("UserId"));
                 _checkAuthorization.UserId = UserId;
             }
+            if (parameters.ContainsKey("pUserId"))
+            {
+                UserId = parameters.GetValue<int>("pUserId");
+                Login = parameters.GetValue<string>("pLogin");
+                Password = parameters.GetValue<string>("pPassword");
+                User = new UserModel { Id = UserId, Login = Login, Password = Password };
+                UserList.Add(User);
+            }
         }
 
         public async void Initialize(INavigationParameters parameters)
@@ -110,6 +114,8 @@ namespace Contacts.ViewModels
                 Password = User.Password;
             }
             await Task.Delay(TimeSpan.FromSeconds(2));
+            var p = new NavigationParameters();
+            p.Add("mUserId", UserId);
             if (UserId > 0) await _navigationService.NavigateAsync("/NavigationPage/MainListView");
         }
 
@@ -140,6 +146,8 @@ namespace Contacts.ViewModels
             if (User != null && User.Login == Login && User.Password == Password)
             {
                 _checkAuthorization.UserId = User.Id;
+                var p = new NavigationParameters();
+                p.Add("mUserId", UserId);
                 await _navigationService.NavigateAsync("/NavigationPage/MainListView");
             }
             else

@@ -1,4 +1,5 @@
 ﻿using Contacts.Models;
+using Contacts.Services.SignIn;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -36,7 +37,7 @@ namespace Contacts.ViewModels
             };
         }
 
-        private int _userId;
+        private int _userId = 7;
         public int UserId
         {
             get => _userId;
@@ -50,11 +51,14 @@ namespace Contacts.ViewModels
 
         public void OnNavigatedTo(INavigationParameters parameters)
         {
-            UserId = parameters.GetValue<int>("id");
+            if (parameters.ContainsKey("mUserId"))
+            {
+                UserId = parameters.GetValue<int>("mUserId");
+            }
         }
         public async void Initialize(INavigationParameters parameters)
         {
-            await _dialogs.DisplayAlertAsync("Alert", "login id", "Ok");
+            await _dialogs.DisplayAlertAsync("Alert", $"login id {UserId}", "Ok");
         }
         #endregion
 

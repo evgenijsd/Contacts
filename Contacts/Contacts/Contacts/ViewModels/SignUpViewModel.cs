@@ -1,18 +1,14 @@
 ﻿using Contacts.Models;
 using Contacts.Services.Repository;
-using Contacts.Services.SignUp;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Xamarin.Forms;
 
 namespace Contacts.ViewModels
 {
@@ -78,6 +74,7 @@ namespace Contacts.ViewModels
             _navigationService = navigationService;
             _dialogs = dialogs;
             _repository= repository;
+            //_repository.RemoveAsync<UserModel>(new UserModel { Id = 7, Login ="", Password = "" });
 
             _user = new UserModel();
             ButtonClickCommand = new DelegateCommand<string>(Execute).ObservesCanExecute(() => IsActive);
@@ -117,9 +114,35 @@ namespace Contacts.ViewModels
 
         private async void Execute(string parameter)
         {
-            Text = parameter+User.Login+User.Password;
+            if (Login.Length < 4 || Login.Length > 16)
+            {
+                await _dialogs.DisplayAlertAsync("Alert", "Login less than 4 and more than 16 characters", "Ok");
+                return;
+            }
+            if (Password.Length < 8 || Password.Length > 16)
+            {
+                await _dialogs.DisplayAlertAsync("Alert", "Password less than 8 and more than 16 characters", "Ok");
+                return;
+            }
+            if (Password != ConfirmPassword)
+            {
+                await _dialogs.DisplayAlertAsync("Alert", "Password and confirm password do not coincide", "Ok");
+                return;
+            }
+            if (UserList.FirstOrDefault(x => x.Login == Login) != null)
+            {
+                await _dialogs.DisplayAlertAsync("Alert", "This login is already taken", "Ok");
+                return;
+            }
+            User.Login = Login;
+            User.Password = Password;
             var result = await _repository.AddAsync<UserModel>(User);
             Text = result.ToString();
+            var p = new NavigationParameters();
+            p.Add("pUserId", User.Id);
+            p.Add("pLogin", User.Login);
+            p.Add("pPassword", User.Password);
+            await _navigationService.GoBackAsync(p);
         }
         /*private async void SetAction()
         {

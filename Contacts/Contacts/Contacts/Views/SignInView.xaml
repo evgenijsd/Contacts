@@ -20,6 +20,8 @@
                 </Label.GestureRecognizers>
             </Label>
             <Label Text="{Binding UserId}"/>
+            <Label Text="{Binding Login}"/>
+            <Label Text="{Binding Password}"/>
         </StackLayout>
     </Grid>
 </ContentPage>
