@@ -4,12 +4,12 @@
              x:Class="Contacts.Views.SettingsView" 
              Title="Settings">
     <ContentPage.ToolbarItems>
-        <ToolbarItem IconImageSource="save.png"/>
+        <ToolbarItem IconImageSource="save.png" Command="{Binding ButtonClickCommand}" CommandParameter="Hello"/>
     </ContentPage.ToolbarItems>
-    <StackLayout Padding="30,30">
-        <Label x:Name="messageLabel" Text="SORT MODE" HorizontalOptions="Center" FontSize="Large"/>
-        <RadioButton  GroupName="Sort" Content="Sort by Name" />
-        <RadioButton  GroupName="Sort" Content="Sort by NickName" />
-        <RadioButton  GroupName="Sort" Content="Sort by Date" />
+    <StackLayout RadioButtonGroup.GroupName="Sort" Padding="30,30">
+        <Label Text="SORT MODE" HorizontalOptions="Center" FontSize="Large"/>
+        <RadioButton  Content="Sort by Name" IsChecked="{Binding SortName}"/>
+        <RadioButton  Content="Sort by NickName" IsChecked="{Binding SortNickName}"/>
+        <RadioButton  Content="Sort by Date" IsChecked="{Binding SortDate}"/>
     </StackLayout>
 </ContentPage>

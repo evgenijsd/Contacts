@@ -19,7 +19,7 @@ namespace Contacts.Services.Repository
                 string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "contacts.db3");
                 SQLiteAsyncConnection database = new SQLiteAsyncConnection(path);
 
-                database.CreateTableAsync<UserModel>();
+                database.CreateTableAsync<ContactModel>();
                 database.CreateTableAsync<ContactModel>();
 
                 return database;

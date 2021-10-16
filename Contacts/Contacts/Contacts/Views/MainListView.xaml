@@ -16,13 +16,13 @@
             <StackLayout>
                 <ListView x:Name="contactsList" 
                           HasUnevenRows="True" 
-                          ItemsSource="{Binding Contacts}" >
+                          ItemsSource="{Binding ContactList}" >
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
                                 <ViewCell.ContextActions>
-                                    <MenuItem Text="EDIT" Command="{prism:NavigateTo 'AddEditProfileView'}"/>
-                                    <MenuItem Text="DELETE" Command="{prism:NavigateTo }" />
+                                    <MenuItem Text="EDIT" Command="{Binding Path=EditCommand}" CommandParameter="{Binding}" />
+                                    <MenuItem Text="DELETE" Command="{Binding Path=DeleteCommand}" CommandParameter="{Binding}" />
                                 </ViewCell.ContextActions>
                                 <ViewCell.View>
                                     <Grid>
@@ -35,8 +35,9 @@
                                         </StackLayout>
                                         <StackLayout Grid.Column="1">
                                             <Label Text="{Binding Name}" FontSize="Medium" />
-                                            <Label Text="{Binding NickName}" FontSize="Small" />
+                                            <Label Text="{Binding Nickname}" FontSize="Small" />
                                             <Label Text="{Binding Date}" FontSize="Small" />
+                                            <Label Text="{Binding Id}" FontSize="Small" />
                                         </StackLayout>
                                     </Grid>
                                 </ViewCell.View>
@@ -46,7 +47,7 @@
                 </ListView>
             </StackLayout>
         </ScrollView>
-        <Label Text="{Binding UserId}"/>
-        <ImageButton Source="add.png" Grid.Row="0" CornerRadius="40" HorizontalOptions="End" WidthRequest="80" HeightRequest="80" Margin="0,0,30,70" VerticalOptions="End" Command="{prism:NavigateTo 'AddEditProfileView'}" />
+        <Label Text="No profiles added." FontSize="Large" HorizontalOptions="Center" VerticalOptions="Center" IsVisible="{Binding IsNull}"/>
+        <ImageButton Source="add.png" Grid.Row="0" CornerRadius="40" HorizontalOptions="End" WidthRequest="80" HeightRequest="80" Margin="0,0,30,70" VerticalOptions="End" Command="{Binding AddCommand}"/>
     </Grid>
 </ContentPage>

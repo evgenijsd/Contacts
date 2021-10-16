@@ -1,4 +1,5 @@
 ﻿using Contacts.Services.Repository;
+using Contacts.Services.Settings;
 using Contacts.Services.SignIn;
 using Contacts.Services.SignUp;
 using Contacts.ViewModels;
@@ -30,6 +31,7 @@ namespace Contacts
             containerRegistry.RegisterInstance<IRepository>(Container.Resolve<Repository>());
             containerRegistry.RegisterInstance<ICheckAuthorization>(Container.Resolve<CheckAuthorization>());
             containerRegistry.RegisterInstance<IAddUserBase>(Container.Resolve<AddUserBase>());
+            containerRegistry.RegisterInstance<ISortSetting>(Container.Resolve<SortSetting>());
 
 
             containerRegistry.RegisterForNavigation<NavigationPage>();

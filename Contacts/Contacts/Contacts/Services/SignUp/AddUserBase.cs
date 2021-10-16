@@ -17,9 +17,9 @@ namespace Contacts.Services.SignUp
             _repository = repository;
         }
 
-        public async Task<int> AddUserBaseAsync(UserModel User)
+        public async Task<int> AddUserBaseAsync(ContactModel User)
         {
-            var id = await _repository.AddAsync<UserModel>(User);
+            var id = await _repository.AddAsync<ContactModel>(User);
             return id;
         }
 

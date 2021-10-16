@@ -4,7 +4,7 @@
              x:Class="Contacts.Views.AddEditProfileView" 
              Title="Add Profile">
     <ContentPage.ToolbarItems>
-        <ToolbarItem IconImageSource="save.png"/>
+        <ToolbarItem IconImageSource="save.png" Command="{Binding OpenSaveCommand}"/>
     </ContentPage.ToolbarItems>
     <Grid>
         <Grid.RowDefinitions>
@@ -12,11 +12,12 @@
             <RowDefinition Height="2*"/>
             <RowDefinition Height="3*"/>
         </Grid.RowDefinitions>
-        <Image Grid.Row="0" Source="user.png" Margin="0,30,0,0" />
+        <Image Grid.Row="0" Source="{Binding Image}" Margin="0,30,0,0" />
         <StackLayout Grid.Row="1" Padding="30,10">
-            <Entry x:Name="nickEntry" Placeholder="NickName" />
-            <Entry x:Name="nameEntry" Placeholder="Name" />
+            <Entry Placeholder="NickName" Text="{Binding Nickname}"/>
+            <Entry Placeholder="Name" Text="{Binding Name}"/>
+            <Label Text="{Binding Id}"/>
         </StackLayout>
-        <Editor Grid.Row="2" HeightRequest="170" MaxLength="120" Placeholder="Description" BackgroundColor="LightGray" Margin="30,0,30,30" />
+        <Editor Grid.Row="2" HeightRequest="170" MaxLength="120" Placeholder="Description" BackgroundColor="LightGray" Margin="30,0,30,30" Text="{Binding Description}"/>
     </Grid>
 </ContentPage>    
