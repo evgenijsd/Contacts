@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Contacts.ViewModels
 {
-    class MainPageViewModel : BindableBase, IInitializeAsync
+    class MainPageViewModel : BindableBase, IInitialize
     {
         
         private INavigationService _navigationService { get; }
@@ -19,6 +19,8 @@ namespace Contacts.ViewModels
         public UserModel User { get => _user; set => SetProperty(ref _user, value); }
         private ObservableCollection<UserModel> _userList;
         private readonly IRepository _repository;
+        public DelegateCommand<string> AddCommand { get; private set; }
+
         public ObservableCollection<UserModel> UserList
         {
             get => _userList;
@@ -28,16 +30,24 @@ namespace Contacts.ViewModels
         public MainPageViewModel(IRepository repository)
         {
             _repository = repository;
+
+            AddCommand = new DelegateCommand<string>(OnAddCommand);
         }
 
-        public void Initialize(INavigationParameters parameters)
-        {
-        }
-
-        public async Task InitializeAsync(INavigationParameters parameters)
+        public async void Initialize(INavigationParameters parameters)
         {
             var userList = await _repository.GetAllAsync<UserModel>();
             UserList = new ObservableCollection<UserModel>(userList);
         }
+
+        private async void OnAddCommand(string parameter)
+        {
+            //await _dialogs.DisplayAlertAsync("Alert", $"Count {ContactList.Count}", "Ok");
+            var p = new NavigationParameters();
+            p.Add("maUserId", 3);
+            p.Add("maId", 5);
+            await _navigationService.NavigateAsync("AddEditProfileView");
+        }
+
     }
 }

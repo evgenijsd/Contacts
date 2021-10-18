@@ -15,11 +15,6 @@
         </StackLayout>
         <StackLayout Grid.Row="1" Padding="20,0">
             <Button Text="SIGN UP" BackgroundColor="#E65B30" Command="{Binding ButtonClickCommand}" CommandParameter="Hello"/>
-            <Label Text="MainPage" TextColor="Blue" TextDecorations="Underline" HorizontalOptions="Center" >
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding SetCommand}"/>
-                </Label.GestureRecognizers>
-            </Label>
         </StackLayout>
     </Grid>
 </ContentPage>

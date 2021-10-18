@@ -42,6 +42,13 @@ namespace Contacts.ViewModels
             set => SetProperty(ref _contactList, value);
         }
 
+        private string _title;
+        public string Title
+        {
+            get => _title;
+            set => SetProperty(ref _title, value);
+        }
+
         private ContactModel _contact;
         public ContactModel Contact
         {
@@ -144,15 +151,9 @@ namespace Contacts.ViewModels
             var result = await _repository.AddAsync<ContactModel>(contact);
             await _dialogs.DisplayAlertAsync("Alert", $"login id {contact.UserId} contact id  {contact.Id}, result -{result}", "Ok");
             var p = new NavigationParameters();
-            p.Add("aUserId", contact.UserId);
             p.Add("aId", contact.Id);
-            p.Add("aImage", contact.Image);
-            p.Add("aName", contact.Name);
-            p.Add("aNickname", contact.Nickname); 
-            p.Add("aDescription", contact.Description);
-            p.Add("aDate", contact.Date);
             
-            await _navigationService.GoBackAsync();
+            await _navigationService.GoBackAsync(p);
         }
 
         public void OnNavigatedFrom(INavigationParameters parameters)
@@ -161,11 +162,25 @@ namespace Contacts.ViewModels
 
         public async void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (parameters.ContainsKey("maId"))
+            Title = "Add Profile";
+
+            var parameterName = "maUserId";
+            if (parameters.ContainsKey(parameterName))
             {
-                Id = parameters.GetValue<int>("maId");
-                await _dialogs.DisplayAlertAsync("Alert", $"login id {Id}", "Ok");
+                UserId = parameters.GetValue<int>(parameterName);
             }
+
+            parameterName = "maId";
+            if (parameters.ContainsKey(parameterName))
+            {
+                Title = "Edit Profile";
+                Id = parameters.GetValue<int>(parameterName);
+                Contact = await _repository.GetByIdAsync<ContactModel>(Id);
+                Nickname = Contact.Nickname;
+                Name = Contact.Nickname;
+                Description = Contact.Description;
+            }
+
         }
 
         public async void Initialize(INavigationParameters parameters)

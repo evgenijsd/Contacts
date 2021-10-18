@@ -36,6 +36,11 @@ namespace Contacts.Services.Repository
             return _database.Value.Table<T>().ToListAsync();
         }
 
+        public Task<T> GetByIdAsync<T>(int id) where T : IEntity, new()
+        {
+            return _database.Value.GetAsync<T>(id);
+        }
+
         public Task<int> RemoveAsync<T>(T entity) where T : IEntity, new()
         {
             return _database.Value.DeleteAsync(entity);

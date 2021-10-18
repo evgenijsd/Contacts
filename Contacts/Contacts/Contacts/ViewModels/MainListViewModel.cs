@@ -91,10 +91,10 @@ namespace Contacts.ViewModels
         {
             ContactView contact = contactObj as ContactView;
             int index = ContactList.IndexOf((ContactView)contactObj);
-            if (contact != null) await _dialogs.DisplayAlertAsync("Alert", $"login id {index} - {contact.Id} - {contact.UserId}", "Ok");
+            //if (contact != null) await _dialogs.DisplayAlertAsync("Alert", $"login id {index} - {contact.Id} - {contact.UserId}", "Ok");
             var p = new NavigationParameters();
             p.Add("maId", contact.Id);
-            await _navigationService.NavigateAsync("AddEditProfileView");
+            await _navigationService.NavigateAsync("AddEditProfileView", p);
         }
 
         public async void OnDeleteCommand(object contactObj)
@@ -120,11 +120,9 @@ namespace Contacts.ViewModels
         #region Private
         private async void OnAddCommand(string parameter)
         {
-            //await _dialogs.DisplayAlertAsync("Alert", $"Count {ContactList.Count}", "Ok");
             var p = new NavigationParameters();
             p.Add("maUserId", UserId);
-            p.Add("maId", 7);
-            await _navigationService.NavigateAsync("AddEditProfileView");
+            await _navigationService.NavigateAsync("AddEditProfileView", p);
         }
         #endregion
     }

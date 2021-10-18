@@ -86,7 +86,7 @@ namespace Contacts.ViewModels
 
         }
 
-        public void OnNavigatedTo(INavigationParameters parameters)
+        public async void OnNavigatedTo(INavigationParameters parameters)
         {
             if (parameters.ContainsKey("UserId"))
             {
@@ -96,9 +96,12 @@ namespace Contacts.ViewModels
             if (parameters.ContainsKey("pUserId"))
             {
                 UserId = parameters.GetValue<int>("pUserId");
-                Login = parameters.GetValue<string>("pLogin");
+                /*Login = parameters.GetValue<string>("pLogin");
                 Password = parameters.GetValue<string>("pPassword");
-                User = new UserModel { Id = UserId, Login = Login, Password = Password };
+                User = new UserModel { Id = UserId, Login = Login, Password = Password };*/
+                User = await _repository.GetByIdAsync<UserModel>(UserId);
+                Login = User.Login;
+                Password = User.Password;
                 UserList.Add(User);
             }
         }

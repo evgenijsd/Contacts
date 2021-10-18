@@ -78,7 +78,6 @@ namespace Contacts.ViewModels
 
             _user = new UserModel();
             ButtonClickCommand = new DelegateCommand<string>(Execute).ObservesCanExecute(() => IsActive);
-            SetCommand = new DelegateCommand(SetAction);
         }
 
         #region Public
@@ -140,29 +139,10 @@ namespace Contacts.ViewModels
             Text = result.ToString();
             var p = new NavigationParameters();
             p.Add("pUserId", User.Id);
-            p.Add("pLogin", User.Login);
-            p.Add("pPassword", User.Password);
+            /*p.Add("pLogin", User.Login);
+            p.Add("pPassword", User.Password);*/
             await _navigationService.GoBackAsync(p);
         }
-        /*private async void SetAction()
-        {
-            
-            await _navigationService.NavigateAsync("MainPage");
-            var result = await _navigationService.NavigateAsync(path);
-
-            if (!result.Success)
-            {
-                await _dialogs.DisplayAlertAsync("Error", result.Exception.Message, "Ok");
-            }
-        }*/
-        private async void SetAction()
-        {
-            //UserId = 10;
-            await _navigationService.NavigateAsync("MainPage");
-        }
-
-
-
         #endregion
     }
 }

@@ -28,6 +28,9 @@
     <EmbeddedResource Update="Views\MainListView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\MainView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\SettingsView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -41,5 +44,11 @@
 
   <ItemGroup>
     <Folder Include="Services\MainList\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\MainListView.xaml.cs">
+      <DependentUpon>MainListView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>
