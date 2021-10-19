@@ -43,9 +43,11 @@ namespace Contacts.ViewModels
         private async void OnAddCommand(string parameter)
         {
             //await _dialogs.DisplayAlertAsync("Alert", $"Count {ContactList.Count}", "Ok");
-            var p = new NavigationParameters();
-            p.Add("maUserId", 3);
-            p.Add("maId", 5);
+            var p = new NavigationParameters
+            {
+                { "maUserId", 3 },
+                { "maId", 5 }
+            };
             await _navigationService.NavigateAsync("AddEditProfileView");
         }
 

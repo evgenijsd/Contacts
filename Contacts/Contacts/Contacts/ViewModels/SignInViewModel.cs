@@ -117,8 +117,10 @@ namespace Contacts.ViewModels
                 Password = User.Password;
             }
             await Task.Delay(TimeSpan.FromSeconds(2));
-            var p = new NavigationParameters();
-            p.Add("mUserId", UserId);
+            var p = new NavigationParameters
+            {
+                { "mUserId", UserId }
+            };
             if (UserId > 0) await _navigationService.NavigateAsync("/NavigationPage/MainListView");
         }
 
@@ -149,8 +151,10 @@ namespace Contacts.ViewModels
             if (User != null && User.Login == Login && User.Password == Password)
             {
                 _checkAuthorization.UserId = User.Id;
-                var p = new NavigationParameters();
-                p.Add("mUserId", UserId);
+                var p = new NavigationParameters
+                {
+                    { "mUserId", UserId }
+                };
                 await _navigationService.NavigateAsync("/NavigationPage/MainListView");
             }
             else

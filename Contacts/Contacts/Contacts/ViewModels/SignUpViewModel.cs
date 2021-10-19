@@ -137,8 +137,10 @@ namespace Contacts.ViewModels
             User.Password = Password;
             var result = await _repository.AddAsync<UserModel>(User);
             Text = result.ToString();
-            var p = new NavigationParameters();
-            p.Add("pUserId", User.Id);
+            var p = new NavigationParameters
+            {
+                { "pUserId", User.Id }
+            };
             /*p.Add("pLogin", User.Login);
             p.Add("pPassword", User.Password);*/
             await _navigationService.GoBackAsync(p);

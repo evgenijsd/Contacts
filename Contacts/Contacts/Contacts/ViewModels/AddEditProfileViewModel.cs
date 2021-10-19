@@ -15,7 +15,7 @@ using Xamarin.Forms;
 
 namespace Contacts.ViewModels
 {
-    public class AddEditProfileViewModel : BindableBase, INavigationAware, IInitialize
+    public class AddEditProfileViewModel : BindableBase, INavigationAware
     {
         private INavigationService _navigationService { get; }
         private IPageDialogService _dialogs { get; }
@@ -33,13 +33,6 @@ namespace Contacts.ViewModels
                     RaisePropertyChanged(nameof(OpenSaveCommand));
                 }
             }
-        }
-
-        private ObservableCollection<ContactModel> _contactList;
-        public ObservableCollection<ContactModel> ContactList
-        {
-            get => _contactList;
-            set => SetProperty(ref _contactList, value);
         }
 
         private string _title;
@@ -63,7 +56,7 @@ namespace Contacts.ViewModels
             set => SetProperty(ref _userId, value);
         }
 
-        private int _id;
+        private int _id = 0;
         public int Id
         {
             get => _id;
@@ -141,18 +134,26 @@ namespace Contacts.ViewModels
 
         private async void OnOpenSaveCommandAsync()
         {
-            ContactModel contact = new ContactModel();
-            contact.UserId = UserId;
-            contact.Image = Image;
-            contact.Name = Name;
-            contact.Nickname = Nickname;
-            contact.Description = Description;
-            contact.Date = DateTime.Now;
-            var result = await _repository.AddAsync<ContactModel>(contact);
-            await _dialogs.DisplayAlertAsync("Alert", $"login id {contact.UserId} contact id  {contact.Id}, result -{result}", "Ok");
+            ContactModel contact = new ContactModel
+            {
+                Id = Id,
+                UserId = UserId,
+                Image = Image,
+                Name = Name,
+                Nickname = Nickname,
+                Description = Description,
+                Date = DateTime.Now
+            };
+            if (Title == "Add Profile") {
+                int result = await _repository.AddAsync<ContactModel>(contact);
+            }
+            else {
+                int result = await _repository.UpdateAsync<ContactModel>(contact);
+                //await _dialogs.DisplayAlertAsync("Alert", $"login id {contact.UserId} contact id  {contact.Id}, result -{result}", "Ok");
+            }
+            //await _dialogs.DisplayAlertAsync("Alert", $"login id {contact.UserId} contact id  {contact.Id}, result -{result}", "Ok");
             var p = new NavigationParameters();
             p.Add("aId", contact.Id);
-            
             await _navigationService.GoBackAsync(p);
         }
 
@@ -176,21 +177,6 @@ namespace Contacts.ViewModels
                 Title = "Edit Profile";
                 Id = parameters.GetValue<int>(parameterName);
                 Contact = await _repository.GetByIdAsync<ContactModel>(Id);
-                Nickname = Contact.Nickname;
-                Name = Contact.Nickname;
-                Description = Contact.Description;
-            }
-
-        }
-
-        public async void Initialize(INavigationParameters parameters)
-        {
-            //Id = parameters.GetValue<int>("maId");
-            if (Id != 0)
-            {
-                var contactList = await _repository.GetAllAsync<ContactModel>();
-                ContactList = new ObservableCollection<ContactModel>(contactList);
-                Contact  = ContactList.FirstOrDefault(x => x.Id == Id);
                 UserId = Contact.UserId;
                 Image = Contact.Image;
                 Name = Contact.Name;
@@ -198,6 +184,7 @@ namespace Contacts.ViewModels
                 Description = Contact.Description;
                 Date = Contact.Date;
             }
+
         }
 
         #endregion

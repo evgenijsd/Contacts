@@ -1,17 +1,16 @@
-﻿using Contacts.Models;
+﻿using Acr.UserDialogs;
+using Contacts.Models;
 using Contacts.Services.Repository;
+using Contacts.Services.Settings;
 using Contacts.Services.SignIn;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Windows.Input;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Contacts.ViewModels
@@ -23,17 +22,21 @@ namespace Contacts.ViewModels
         private IRepository _repository { get; }
         public DelegateCommand<string> AddCommand { get; private set; }
         private ICheckAuthorization _checkAuthorization { get; set; }
+        private ISortSetting _sortSetting { get; set; }
         public DelegateCommand<string> EditCommand { get; set; }
         public DelegateCommand<string> DeleteCommand { get; set; }
 
 
-        public MainListViewModel(INavigationService navigationService, IPageDialogService dialogs, ICheckAuthorization checkAuthorization, IRepository repository)
+
+        public MainListViewModel(INavigationService navigationService, IPageDialogService dialogs, ICheckAuthorization checkAuthorization, IRepository repository, ISortSetting sortSetting)
         {
             _navigationService = navigationService;
             _repository = repository;
             _dialogs = dialogs;
+            _sortSetting = sortSetting;
             _checkAuthorization = checkAuthorization;
             UserId = _checkAuthorization.UserId;
+            Settings = _sortSetting.SortSet;
 
             AddCommand = new DelegateCommand<string>(OnAddCommand);
             EditCommand = new DelegateCommand<string>(OnEditCommand);
@@ -46,6 +49,14 @@ namespace Contacts.ViewModels
             get => _contactList;
             set => SetProperty(ref _contactList, value);
         }
+
+        private int _settings;
+        public int Settings
+        {
+            get { return _settings; }
+            set { SetProperty(ref _settings, value); }
+        }
+
         private bool _isNull;
         public bool IsNull
         {
@@ -53,6 +64,7 @@ namespace Contacts.ViewModels
             set { SetProperty(ref _isNull, value); }
         }
 
+        private int _index;
         private int _userId;
         public int UserId
         {
@@ -65,16 +77,32 @@ namespace Contacts.ViewModels
         {
         }
 
-        public void OnNavigatedTo(INavigationParameters parameters)
+        public async void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (parameters.ContainsKey("aId"))
+            var parameterName = "aId";
+            if (parameters.ContainsKey(parameterName))
             {
+                int id = parameters.GetValue<int>(parameterName);
+                if (id != 0)
+                {
+                    var contact = (await _repository.GetByIdAsync<ContactModel>(id)).ToContactView();
+                    contact.DeleteCommand = new Command(OnDeleteCommand);
+                    contact.EditCommand = new Command(OnEditCommand);
+                    if (ContactList[_index].Id == contact.Id)
+                    {
+                        ContactList[_index] = contact;
+                    }
+                    else { 
+                        ContactList.Add(contact);
+                    }
+                }
             }
         }
+
         public async void Initialize(INavigationParameters parameters)
         {
             var contacts = await _repository.GetAllAsync<ContactModel>();
-            ContactList = new ObservableCollection<ContactView>(contacts.FindAll(x => x.UserId == UserId).Select(x => x.ToContactView()));
+            ContactList = new ObservableCollection<ContactView>(contacts.FindAll(x => x.UserId == UserId).Select(x => x.ToContactView()).OrderBy(x => x.Name));
 
             var deleteCommand = new Command(OnDeleteCommand);
             var editCommand = new Command(OnEditCommand);
@@ -85,21 +113,44 @@ namespace Contacts.ViewModels
                 contact.EditCommand = editCommand;
             }
             IsNull = ContactList.Count == 0;
+
+            //ContactList.Sort
         }
 
         private async void OnEditCommand(object contactObj)
         {
-            ContactView contact = contactObj as ContactView;
-            int index = ContactList.IndexOf((ContactView)contactObj);
-            //if (contact != null) await _dialogs.DisplayAlertAsync("Alert", $"login id {index} - {contact.Id} - {contact.UserId}", "Ok");
-            var p = new NavigationParameters();
-            p.Add("maId", contact.Id);
-            await _navigationService.NavigateAsync("AddEditProfileView", p);
+            if (contactObj != null)
+            {
+                ContactView contact = contactObj as ContactView;
+                _index = ContactList.IndexOf(contact);
+                //if (contact != null) await _dialogs.DisplayAlertAsync("Alert", $"login id {index} - {contact.Id} - {contact.UserId}", "Ok");
+                var p = new NavigationParameters();
+                p.Add("maId", contact.Id);
+                //if (contact != null) await _dialogs.DisplayAlertAsync("Alert", $"contact - {contact.Id}", "Ok");
+                await _navigationService.NavigateAsync("AddEditProfileView", p);
+            }
         }
 
         public async void OnDeleteCommand(object contactObj)
         {
-            await _dialogs.DisplayAlertAsync("Alert", $"login id {UserId}", "Ok");
+            if (contactObj != null)
+            {
+                ContactView contact = contactObj as ContactView;
+                ContactModel contactdel = contact.ToContact();
+                var confirmConfig = new ConfirmConfig()
+                {
+                    Message = "Are you sure you want to remove contact?",
+                    OkText = "Delete",
+                    CancelText = "Cancel"
+                };
+                var confirm = await UserDialogs.Instance.ConfirmAsync(confirmConfig);
+                if (confirm)
+                {
+                    await _repository.RemoveAsync<ContactModel>(contactdel);
+                    ContactList.Remove(contact);
+                    //await _dialogs.DisplayAlertAsync("Alert", $"login id {UserId}", "Ok");
+                }
+            }
         }
 
         #endregion
@@ -114,6 +165,22 @@ namespace Contacts.ViewModels
             {
                 IsNull = ContactList.Count == 0;
             }
+
+            if (args.PropertyName == nameof(Settings))
+            {
+                /*ObservableCollection<ContactView> contactUpdate = new() ObservableCollection<ContactView>;
+                switch (Settings)
+                {
+                    0: break;
+                1: break;
+                2: break;
+                default:
+                        break;
+                }
+
+                ContactList;*/
+            }
+
         }
         #endregion
 
@@ -124,6 +191,7 @@ namespace Contacts.ViewModels
             p.Add("maUserId", UserId);
             await _navigationService.NavigateAsync("AddEditProfileView", p);
         }
+
         #endregion
     }
 }
