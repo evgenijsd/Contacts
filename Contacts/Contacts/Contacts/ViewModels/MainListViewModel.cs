@@ -36,7 +36,6 @@ namespace Contacts.ViewModels
             _sortSetting = sortSetting;
             _checkAuthorization = checkAuthorization;
             UserId = _checkAuthorization.UserId;
-            Settings = _sortSetting.SortSet;
 
             AddCommand = new DelegateCommand<string>(OnAddCommand);
             EditCommand = new DelegateCommand<string>(OnEditCommand);
@@ -50,7 +49,7 @@ namespace Contacts.ViewModels
             set => SetProperty(ref _contactList, value);
         }
 
-        private int _settings;
+        private int _settings = 100;
         public int Settings
         {
             get { return _settings; }
@@ -97,6 +96,13 @@ namespace Contacts.ViewModels
                     }
                 }
             }
+
+            parameterName = "sSet";
+            if (parameters.ContainsKey(parameterName))
+            {
+                Settings = parameters.GetValue<int>(parameterName);
+                await _dialogs.DisplayAlertAsync("Alert", $"contact - {Settings}", "Ok");
+            }
         }
 
         public async void Initialize(INavigationParameters parameters)
@@ -113,6 +119,7 @@ namespace Contacts.ViewModels
                 contact.EditCommand = editCommand;
             }
             IsNull = ContactList.Count == 0;
+            Settings = _sortSetting.SortSet;
 
             //ContactList.Sort
         }
@@ -168,17 +175,13 @@ namespace Contacts.ViewModels
 
             if (args.PropertyName == nameof(Settings))
             {
-                /*ObservableCollection<ContactView> contactUpdate = new() ObservableCollection<ContactView>;
                 switch (Settings)
                 {
-                    0: break;
-                1: break;
-                2: break;
-                default:
-                        break;
+                    case 0: ContactList = new ObservableCollection<ContactView>(ContactList.OrderBy(x => x.Name)); break;
+                    case 1: ContactList = new ObservableCollection<ContactView>(ContactList.OrderBy(x => x.Nickname)); break;
+                    case 2: ContactList = new ObservableCollection<ContactView>(ContactList.OrderBy(x => x.Date)); break;
+                    default: break;
                 }
-
-                ContactList;*/
             }
 
         }

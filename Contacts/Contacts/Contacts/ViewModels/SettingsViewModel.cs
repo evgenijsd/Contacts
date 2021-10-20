@@ -84,7 +84,9 @@ namespace Contacts.ViewModels
         {
             _sortSetting.SortSet = SortSet;
             //await _dialogs.DisplayAlertAsync("Alert", $"sortsetting {SortSet}", "Ok");
-            await _navigationService.GoBackAsync();
+            var p = new NavigationParameters();
+            p.Add("sSet", SortSet);
+            await _navigationService.GoBackAsync(p);
         }
     }
 }
