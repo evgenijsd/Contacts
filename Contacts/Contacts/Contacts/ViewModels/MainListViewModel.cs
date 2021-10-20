@@ -101,7 +101,6 @@ namespace Contacts.ViewModels
             if (parameters.ContainsKey(parameterName))
             {
                 Settings = parameters.GetValue<int>(parameterName);
-                await _dialogs.DisplayAlertAsync("Alert", $"contact - {Settings}", "Ok");
             }
         }
 

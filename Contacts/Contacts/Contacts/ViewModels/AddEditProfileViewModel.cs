@@ -1,4 +1,5 @@
-﻿using Contacts.Models;
+﻿using Acr.UserDialogs;
+using Contacts.Models;
 using Contacts.Services.Repository;
 using Contacts.Services.SignIn;
 using Prism.Mvvm;
@@ -8,9 +9,11 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace Contacts.ViewModels
@@ -111,6 +114,7 @@ namespace Contacts.ViewModels
         }
 
         public ICommand OpenSaveCommand => new Command(OnOpenSaveCommandAsync, () => CanSave);
+        public ICommand ImageCommand => new Command(OnImageCommand);
 
         #region -- Overrides --
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
@@ -157,6 +161,35 @@ namespace Contacts.ViewModels
             await _navigationService.GoBackAsync(p);
         }
 
+        private async void Result(int i)
+        {
+            if (i == 0)
+            {
+                Image = (await MediaPicker.PickPhotoAsync()).FullPath;
+            }
+            else
+            {
+                var photo = await MediaPicker.CapturePhotoAsync();
+                var newFile = Path.Combine(FileSystem.AppDataDirectory, photo.FileName);
+                using (var stream = await photo.OpenReadAsync())
+                using (var newStream = File.OpenWrite(newFile))
+                    await stream.CopyToAsync(newStream);
+
+                Image = photo.FullPath;
+            }
+            //_dialogs.DisplayAlertAsync("Alert", $"login id {i}", "Ok");
+        }
+
+        private void OnImageCommand()
+        {
+            var actionSheetConfig = new ActionSheetConfig()
+                .SetTitle("Choose Type")
+                .SetMessage("Image")
+                .Add("Pick at Gallery", () => this.Result(0), "gallery.png")
+                .Add("Take photo with camera ", () => this.Result(1), "photo.png");
+            var confirm =  UserDialogs.Instance.ActionSheet(actionSheetConfig);
+        }
+
         public void OnNavigatedFrom(INavigationParameters parameters)
         {
         }
@@ -165,7 +198,7 @@ namespace Contacts.ViewModels
         {
             Title = "Add Profile";
 
-            var parameterName = "maUserId";
+            string parameterName = "maUserId";
             if (parameters.ContainsKey(parameterName))
             {
                 UserId = parameters.GetValue<int>(parameterName);
