@@ -6,12 +6,8 @@ using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -23,7 +19,7 @@ namespace Contacts.ViewModels
         private INavigationService _navigationService { get; }
         private IPageDialogService _dialogs { get; }
         private IRepository _repository { get; }
-        private ICheckAuthorization _checkAuthorization { get; set; }
+        private IAuthenticationId _checkAuthorization { get; set; }
 
         private bool _CanSave;
         public bool CanSave
@@ -104,7 +100,7 @@ namespace Contacts.ViewModels
 
 
 
-        public AddEditProfileViewModel(INavigationService navigationService, IPageDialogService dialogs, IRepository repository, ICheckAuthorization checkAuthorization)
+        public AddEditProfileViewModel(INavigationService navigationService, IPageDialogService dialogs, IRepository repository, IAuthenticationId checkAuthorization)
         {
             _navigationService = navigationService;
             _dialogs = dialogs;
@@ -222,5 +218,19 @@ namespace Contacts.ViewModels
 
         #endregion
 
+        #region -- Public properties --
+
+
+        #endregion
+
+        #region -- Overrides --
+
+
+        #endregion
+
+        #region -- Private helpers --
+
+
+        #endregion
     }
 }

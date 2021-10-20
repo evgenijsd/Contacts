@@ -29,18 +29,17 @@ namespace Contacts
         {
             //containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();
             containerRegistry.RegisterInstance<IRepository>(Container.Resolve<Repository>());
-            containerRegistry.RegisterInstance<ICheckAuthorization>(Container.Resolve<CheckAuthorization>());
+            containerRegistry.RegisterInstance<IAuthenticationId>(Container.Resolve<AuthenticationId>());
             containerRegistry.RegisterInstance<IAddUserBase>(Container.Resolve<AddUserBase>());
             containerRegistry.RegisterInstance<ISortSetting>(Container.Resolve<SortSetting>());
+            containerRegistry.RegisterInstance<IAuthentication>(Container.Resolve<Authentication>());
 
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<SignInView, SignInViewModel>();
             containerRegistry.RegisterForNavigation<SignUpView, SignUpViewModel>();
             containerRegistry.RegisterForNavigation<MainListView, MainListViewModel>();
-            containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
             containerRegistry.RegisterForNavigation<AddEditProfileView, AddEditProfileViewModel>();
-            containerRegistry.RegisterForNavigation<MainView, MainViewModel>();
             containerRegistry.RegisterForNavigation<SettingsView, SettingsViewModel>();
             
         }

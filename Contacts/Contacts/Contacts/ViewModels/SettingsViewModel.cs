@@ -3,11 +3,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Text;
-using Xamarin.Forms;
 
 namespace Contacts.ViewModels
 {
@@ -88,5 +84,21 @@ namespace Contacts.ViewModels
             p.Add("sSet", SortSet);
             await _navigationService.GoBackAsync(p);
         }
+
+        #region -- Public properties --
+
+
+        #endregion
+
+        #region -- Overrides --
+
+
+        #endregion
+
+        #region -- Private helpers --
+
+
+        #endregion
     }
+
 }

@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Services\SignUp\c4j0ux13.mj5~" />
     <None Remove="ViewModels\h1xl2wxv.pfs~" />
   </ItemGroup>
 
@@ -29,9 +30,6 @@
     <EmbeddedResource Update="Views\MainListView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\MainView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Update="Views\SettingsView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -41,10 +39,6 @@
     <EmbeddedResource Update="Views\SignUpView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Services\MainList\" />
   </ItemGroup>
 
   <ItemGroup>

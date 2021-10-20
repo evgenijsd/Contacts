@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xamarin.Essentials;
+﻿using Xamarin.Essentials;
 
 namespace Contacts.Services.SignIn
 {
-    public class CheckAuthorization : ICheckAuthorization
+    public class AuthenticationId : IAuthenticationId
     {
         public int UserId 
         { 

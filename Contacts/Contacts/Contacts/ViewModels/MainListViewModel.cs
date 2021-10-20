@@ -10,7 +10,6 @@ using Prism.Services;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Contacts.ViewModels
@@ -21,14 +20,12 @@ namespace Contacts.ViewModels
         private IPageDialogService _dialogs { get; }
         private IRepository _repository { get; }
         public DelegateCommand<string> AddCommand { get; private set; }
-        private ICheckAuthorization _checkAuthorization { get; set; }
+        private IAuthenticationId _checkAuthorization { get; set; }
         private ISortSetting _sortSetting { get; set; }
         public DelegateCommand<string> EditCommand { get; set; }
         public DelegateCommand<string> DeleteCommand { get; set; }
 
-
-
-        public MainListViewModel(INavigationService navigationService, IPageDialogService dialogs, ICheckAuthorization checkAuthorization, IRepository repository, ISortSetting sortSetting)
+        public MainListViewModel(INavigationService navigationService, IPageDialogService dialogs, IAuthenticationId checkAuthorization, IRepository repository, ISortSetting sortSetting)
         {
             _navigationService = navigationService;
             _repository = repository;
@@ -193,6 +190,21 @@ namespace Contacts.ViewModels
             p.Add("maUserId", UserId);
             await _navigationService.NavigateAsync("AddEditProfileView", p);
         }
+
+        #endregion
+
+        #region -- Public properties --
+
+
+        #endregion
+
+        #region -- Overrides --
+
+
+        #endregion
+
+        #region -- Private helpers --
+
 
         #endregion
     }

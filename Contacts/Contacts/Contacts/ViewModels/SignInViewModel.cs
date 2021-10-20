@@ -1,14 +1,11 @@
 ﻿using Contacts.Models;
-using Contacts.Services.Repository;
 using Contacts.Services.SignIn;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
 using System;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Contacts.ViewModels
@@ -17,35 +14,23 @@ namespace Contacts.ViewModels
     {
         private INavigationService _navigationService { get; }
         private IPageDialogService _dialogs { get; }
-        private ICheckAuthorization _checkAuthorization { get; set; }
-        private UserModel _user;
-        private IRepository _repository { get; }
-        public DelegateCommand MainListCommand { get; set; }
-        public DelegateCommand SignUpCommand { get; set; }
-        public DelegateCommand SetCommand { get; set; }
-        
+        private IAuthenticationId _idAuthentication { get; set; }
+        private IAuthentication _authentication;
 
-        public SignInViewModel(INavigationService navigationService, IPageDialogService dialogs, ICheckAuthorization checkAuthorization, IRepository repository, UserModel user)
+        public SignInViewModel(INavigationService navigationService, IPageDialogService dialogs, IAuthenticationId idAuthentication, IAuthentication authentication, UserModel user)
         {
             _navigationService = navigationService;
-            _repository = repository;
             _dialogs = dialogs;
-            _checkAuthorization = checkAuthorization;
-            UserId = _checkAuthorization.UserId;
+            _authentication = authentication;
+            _idAuthentication = idAuthentication;
+            UserId = _idAuthentication.UserId;
             _user = user;
 
-            MainListCommand = new DelegateCommand(MainListAction).ObservesCanExecute(() => IsActive);
-            SignUpCommand = new DelegateCommand(SignUpAction);
+            MainListCommand = new DelegateCommand(OnMainListCommand).ObservesCanExecute(() => IsActive);
+            SignUpCommand = new DelegateCommand(OnSignUpCommand);
         }
 
-        #region Property
-        private ObservableCollection<UserModel> _userList;
-        public ObservableCollection<UserModel> UserList
-        {
-            get => _userList;
-            set => SetProperty(ref _userList, value);
-        }
-
+        #region -- Public properties --
         private string _login = string.Empty;
         public string Login
         {
@@ -66,6 +51,7 @@ namespace Contacts.ViewModels
             set => SetProperty(ref _userId, value);
         }
 
+        private UserModel _user;
         public UserModel User
         {
             get => _user;
@@ -78,83 +64,67 @@ namespace Contacts.ViewModels
             get { return _isActive; }
             set { SetProperty(ref _isActive, value); }
         }
+
+        public DelegateCommand MainListCommand { get; set; }
+        public DelegateCommand SignUpCommand { get; set; }
         #endregion
 
         #region Public
+        public async void Initialize(INavigationParameters parameters)
+        {
+            await Task.Delay(TimeSpan.FromSeconds(1));
+            if (UserId > 0)
+            {
+                var p = new NavigationParameters { { "mUserId", UserId } };
+                await _navigationService.NavigateAsync("/NavigationPage/MainListView");
+            }
+        }
+
         public void OnNavigatedFrom(INavigationParameters parameters)
         {
 
         }
 
-        public async void OnNavigatedTo(INavigationParameters parameters)
+        public void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (parameters.ContainsKey("UserId"))
+            if (parameters.ContainsKey("UserIdNull"))
             {
-                UserId = int.Parse(parameters.GetValue<string>("UserId"));
-                _checkAuthorization.UserId = UserId;
+                UserId = 0;
+                _idAuthentication.UserId = UserId;
             }
-            if (parameters.ContainsKey("pUserId"))
+            if (parameters.ContainsKey("pUser"))
             {
-                UserId = parameters.GetValue<int>("pUserId");
-                /*Login = parameters.GetValue<string>("pLogin");
-                Password = parameters.GetValue<string>("pPassword");
-                User = new UserModel { Id = UserId, Login = Login, Password = Password };*/
-                User = await _repository.GetByIdAsync<UserModel>(UserId);
-                Login = User.Login;
-                Password = User.Password;
-                UserList.Add(User);
-            }
-        }
-
-        public async void Initialize(INavigationParameters parameters)
-        {
-            var userList = await _repository.GetAllAsync<UserModel>();
-            UserList = new ObservableCollection<UserModel>(userList);
-            if (UserId > 0)
-            {
-                User = UserList.FirstOrDefault(x => x.Id == UserId);
+                User = parameters.GetValue<UserModel>("pUser");
                 Login = User.Login;
                 Password = User.Password;
             }
-            await Task.Delay(TimeSpan.FromSeconds(2));
-            var p = new NavigationParameters
-            {
-                { "mUserId", UserId }
-            };
-            if (UserId > 0) await _navigationService.NavigateAsync("/NavigationPage/MainListView");
         }
-
         #endregion
 
-
-        #region Overrides
+        #region -- Overrides --
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             base.OnPropertyChanged(args);
 
-            if (args.PropertyName == nameof(Login))
+            switch (args.PropertyName)
             {
-                IsActive = Login != string.Empty && Password != string.Empty;
-            } 
-            if (args.PropertyName == nameof(Password))
-            {
-                IsActive = Login != string.Empty && Password != string.Empty;
+                case nameof(Login):
+                case nameof(Password):
+                    IsActive = !string.IsNullOrWhiteSpace(Login) && !string.IsNullOrWhiteSpace(Password);
+                    break;
             }
         }
         #endregion
 
-        #region Private
-
-        private async void MainListAction()
+        #region -- Private helpers --
+        private async void OnMainListCommand()
         {
-            User = UserList.FirstOrDefault(x => x.Login == Login);
-            if (User != null && User.Login == Login && User.Password == Password)
+            int id = await _authentication.CheckAsync(Login, Password);
+            if (id != 0)
             {
-                _checkAuthorization.UserId = User.Id;
-                var p = new NavigationParameters
-                {
-                    { "mUserId", UserId }
-                };
+                UserId = id;
+                _idAuthentication.UserId = id;
+                var p = new NavigationParameters { { "mUserId", id } };
                 await _navigationService.NavigateAsync("/NavigationPage/MainListView");
             }
             else
@@ -162,11 +132,9 @@ namespace Contacts.ViewModels
                 await _dialogs.DisplayAlertAsync("Alert", "Invalid login or password!", "Ok");
                 Password = string.Empty;
             }
-            //
-            //await _navigationService.NavigateAsync("/NavigationPage/MainListView");
         }
 
-        private async void SignUpAction()
+        private async void OnSignUpCommand()
         {
             await _navigationService.NavigateAsync("SignUpView");
         }

@@ -14,7 +14,7 @@
             <Entry Placeholder="Confirm Password" IsPassword="true" Text = "{Binding ConfirmPassword}"/>
         </StackLayout>
         <StackLayout Grid.Row="1" Padding="20,0">
-            <Button Text="SIGN UP" BackgroundColor="#E65B30" Command="{Binding ButtonClickCommand}" CommandParameter="Hello"/>
+            <Button Text="SIGN UP" BackgroundColor="#E65B30" Command="{Binding SignInCommand}"/>
         </StackLayout>
     </Grid>
 </ContentPage>
