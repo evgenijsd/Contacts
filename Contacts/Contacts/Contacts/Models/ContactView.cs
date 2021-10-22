@@ -45,6 +45,13 @@ namespace Contacts.Models
             set => SetProperty(ref _nickname, value);
         }
 
+        private string _description;
+        public string Description
+        {
+            get => _description;
+            set => SetProperty(ref _description, value);
+        }
+
         private DateTime _date;
         public DateTime Date
         {

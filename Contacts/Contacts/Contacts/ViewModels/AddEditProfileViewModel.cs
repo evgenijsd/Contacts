@@ -1,5 +1,6 @@
 ﻿using Acr.UserDialogs;
 using Contacts.Models;
+using Contacts.Services.AddEditProfile;
 using Contacts.Services.Repository;
 using Contacts.Services.SignIn;
 using Prism.Mvvm;
@@ -17,130 +18,15 @@ namespace Contacts.ViewModels
     public class AddEditProfileViewModel : BindableBase, INavigationAware
     {
         private INavigationService _navigationService { get; }
-        private IPageDialogService _dialogs { get; }
-        private IRepository _repository { get; }
-        private IAuthenticationId _checkAuthorization { get; set; }
-        private int _index = 0;
+        private IAddEditService _addEdit;
+        enum ImageChoise { gallery, camera }
 
-        public AddEditProfileViewModel(INavigationService navigationService, IPageDialogService dialogs, IRepository repository, IAuthenticationId checkAuthorization)
+        public AddEditProfileViewModel(INavigationService navigationService, IAddEditService addEdit)
         {
             _navigationService = navigationService;
-            _dialogs = dialogs;
-            _checkAuthorization = checkAuthorization;
-            UserId = _checkAuthorization.UserId;
-            _repository = repository;
+            _addEdit = addEdit;
         }
 
-        public ICommand OpenSaveCommand => new Command(OnOpenSaveCommandAsync, () => CanSave);
-        public ICommand ImageCommand => new Command(OnImageCommand);
-
-        #region -- Overrides --
-        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
-        {
-            base.OnPropertyChanged(args);
-
-            if (args.PropertyName == nameof(Name))
-            {
-                CanSave = Name != string.Empty && Nickname != string.Empty;
-            }
-            if (args.PropertyName == nameof(Nickname))
-            {
-                CanSave = Name != string.Empty && Nickname != string.Empty;
-            }
-
-        }
-
-        #endregion
-
-        #region -- Private helpers --
-
-        private async void OnOpenSaveCommandAsync()
-        {
-            ContactModel contact = new ContactModel
-            {
-                Id = Id,
-                UserId = UserId,
-                Image = Image,
-                Name = Name,
-                Nickname = Nickname,
-                Description = Description,
-                Date = DateTime.Now
-            };
-            if (Title == "Add Profile") {
-                int result = await _repository.AddAsync<ContactModel>(contact);
-            }
-            else {
-                int result = await _repository.UpdateAsync<ContactModel>(contact);
-            }
-            var p = new NavigationParameters { { "aId", contact } };
-            await _navigationService.GoBackAsync(p);
-        }
-
-        private async void Result(int i)
-        {
-            if (i == 0)
-            {
-                Image = (await MediaPicker.PickPhotoAsync()).FullPath;
-            }
-            else
-            {
-                var photo = await MediaPicker.CapturePhotoAsync();
-                var newFile = Path.Combine(FileSystem.AppDataDirectory, photo.FileName);
-                using (var stream = await photo.OpenReadAsync())
-                using (var newStream = File.OpenWrite(newFile))
-                    await stream.CopyToAsync(newStream);
-
-                Image = photo.FullPath;
-            }
-            //_dialogs.DisplayAlertAsync("Alert", $"login id {i}", "Ok");
-        }
-
-        private void OnImageCommand()
-        {
-            var actionSheetConfig = new ActionSheetConfig()
-                .SetTitle("Choose Type")
-                .SetMessage("Image")
-                .Add("Pick at Gallery", () => this.Result(0), "gallery.png")
-                .Add("Take photo with camera ", () => this.Result(1), "photo.png");
-            var confirm =  UserDialogs.Instance.ActionSheet(actionSheetConfig);
-        }
-
-        public void OnNavigatedFrom(INavigationParameters parameters)
-        {
-        }
-
-        public void OnNavigatedTo(INavigationParameters parameters)
-        {
-            Title = "Add Profile";
-
-            string parameterName = "maUserId";
-            if (parameters.ContainsKey(parameterName))
-            {
-                UserId = parameters.GetValue<int>(parameterName);
-            }
-
-            parameterName = "maIndex";
-            if (parameters.ContainsKey(parameterName))
-            {
-                _index = parameters.GetValue<int>(parameterName);
-            }
-
-            parameterName = "maContact";
-            if (parameters.ContainsKey(parameterName))
-            {
-                Title = "Edit Profile";
-                Contact = parameters.GetValue<ContactModel>(parameterName);
-                UserId = Contact.UserId;
-                Image = Contact.Image;
-                Name = Contact.Name;
-                Nickname = Contact.Nickname;
-                Description = Contact.Description;
-                Date = Contact.Date;
-            }
-
-        }
-
-        #endregion
 
         #region -- Public properties --
 
@@ -157,7 +43,7 @@ namespace Contacts.ViewModels
             }
         }
 
-        private string _title;
+        private string _title = "Add Profile";
         public string Title
         {
             get => _title;
@@ -221,16 +107,96 @@ namespace Contacts.ViewModels
             set => SetProperty(ref _date, value);
         }
 
+        public ICommand OpenSaveCommand => new Command(OnSaveCommandAsync, () => CanSave);
+        public ICommand ImageCommand => new Command(OnImageCommand);
+        #endregion
+
+        #region Public 
+        public void OnNavigatedTo(INavigationParameters parameters)
+        {
+            string parameterName = "maUserId";
+            if (parameters.ContainsKey(parameterName))
+            {
+                UserId = parameters.GetValue<int>(parameterName);
+            }
+
+            parameterName = "maContact";
+            if (parameters.ContainsKey(parameterName))
+            {
+                Title = "Edit Profile";
+                Contact = parameters.GetValue<ContactModel>(parameterName);
+                {
+                    Id = Contact.Id;
+                    UserId = Contact.UserId;
+                    Image = Contact.Image;
+                    Name = Contact.Name;
+                    Nickname = Contact.Nickname;
+                    Description = Contact.Description;
+                    Date = Contact.Date;
+                }
+            }
+        }
+        public void OnNavigatedFrom(INavigationParameters parameters)
+        {
+        }
         #endregion
 
         #region -- Overrides --
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
 
+            switch (args.PropertyName)
+            {
+                case nameof(Name):
+                case nameof(Nickname):
+                    CanSave = !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(Nickname);
+                    break;
+            }
 
+        }
         #endregion
 
         #region -- Private helpers --
+        private void OnImageCommand()
+        {
+            var actionSheetConfig = new ActionSheetConfig()
+                .SetTitle("Choose Type")
+                .SetMessage("Image")
+                .Add("Pick at Gallery", () => this.ResultGalleryPhoto(ImageChoise.gallery), "gallery.png")
+                .Add("Take photo with camera ", () => this.ResultGalleryPhoto(ImageChoise.camera), "photo.png");
+            var confirm = UserDialogs.Instance.ActionSheet(actionSheetConfig);
+        }
 
+        private async void ResultGalleryPhoto(ImageChoise choise)
+        {
+            switch (choise)
+            {
+                case ImageChoise.gallery:
+                    Image = (await MediaPicker.PickPhotoAsync()).FullPath;
+                    break;
+                case ImageChoise.camera:
+                    Image = await _addEdit.Photo();
+                    break;
+            }
+        }
 
+        private async void OnSaveCommandAsync()
+        {
+            ContactModel contact = new ContactModel
+            {
+                Id = Id,
+                UserId = UserId,
+                Image = Image,
+                Name = Name,
+                Nickname = Nickname,
+                Description = Description,
+                Date = DateTime.Now
+            };
+            await _addEdit.AddEditExecute(Title, contact);
+            var p = new NavigationParameters { { "amContact", contact } };
+            await _navigationService.GoBackAsync(p);
+        }
         #endregion
     }
 }

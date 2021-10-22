@@ -11,6 +11,7 @@
                 UserId = contact.UserId,
                 Name = contact.Name,
                 Nickname = contact.Nickname,
+                Description = contact.Description,
                 Date = contact.Date
             };
             return n;
@@ -25,6 +26,7 @@
                 UserId = contact.UserId,
                 Name = contact.Name,
                 Nickname = contact.Nickname,
+                Description = contact.Description,
                 Date = contact.Date
             };
             return n;

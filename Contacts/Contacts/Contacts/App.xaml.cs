@@ -1,4 +1,5 @@
-﻿using Contacts.Services.MainList;
+﻿using Contacts.Services.AddEditProfile;
+using Contacts.Services.MainList;
 using Contacts.Services.Repository;
 using Contacts.Services.Settings;
 using Contacts.Services.SignIn;
@@ -32,6 +33,7 @@ namespace Contacts
             containerRegistry.RegisterInstance<IAllSetting>(Container.Resolve<AllSetting>());
             containerRegistry.RegisterInstance<IAuthentication>(Container.Resolve<Authentication>());
             containerRegistry.RegisterInstance<IMainListService>(Container.Resolve<MainListService>());
+            containerRegistry.RegisterInstance<IAddEditService>(Container.Resolve<AddEditService>());
 
 
             containerRegistry.RegisterForNavigation<NavigationPage>();

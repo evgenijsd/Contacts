@@ -102,7 +102,7 @@ namespace Contacts.ViewModels
                     {
                         User.Login = Login;
                         User.Password = Password;
-                        var result = await _addUserBase.UserAddAsync(User);
+                        await _addUserBase.UserAddAsync(User);
                         var p = new NavigationParameters { { "pUser", User } };
                         await _navigationService.GoBackAsync(p);
                     }

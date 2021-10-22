@@ -21,16 +21,14 @@ namespace Contacts.ViewModels
     public class MainListViewModel : BindableBase, INavigationAware, IInitialize
     {
         private INavigationService _navigationService { get; }
-        private IPageDialogService _dialogs { get; }
         private IAllSetting _allSetting { get; set; }
         private IMainListService _mainList;
-        private int _index;
+        
 
 
-        public MainListViewModel(INavigationService navigationService, IPageDialogService dialogs, IAllSetting allSetting, IMainListService mainList)
+        public MainListViewModel(INavigationService navigationService, IAllSetting allSetting, IMainListService mainList)
         {
             _navigationService = navigationService;
-            _dialogs = dialogs;
             _mainList = mainList;
             _allSetting = allSetting;
 
@@ -61,7 +59,7 @@ namespace Contacts.ViewModels
 
         public void OnNavigatedTo(INavigationParameters parameters)
         {
-            var parameterName = "aId";
+            var parameterName = "amContact";
             if (parameters.ContainsKey(parameterName))
             {
                 ContactView contact = parameters.GetValue<ContactModel>(parameterName).ToContactView();
@@ -69,9 +67,9 @@ namespace Contacts.ViewModels
                 {
                     contact.DeleteCommand = new Command(OnDeleteCommand);
                     contact.EditCommand = new Command(OnEditCommand);
-                    if (ContactList[_index].Id == contact.Id)
+                    if (ContactList[Index].Id == contact.Id)
                     {
-                        ContactList[_index] = contact;
+                        ContactList[Index] = contact;
                     }
                     else
                     {
@@ -101,6 +99,13 @@ namespace Contacts.ViewModels
         {
             get => _contactList;
             set => SetProperty(ref _contactList, value);
+        }
+
+        private int _index;
+        public int Index
+        {
+            get { return _index; }
+            set { SetProperty(ref _index, value); }
         }
 
         private int _settings = (int)SetE.SortByName;
@@ -158,7 +163,7 @@ namespace Contacts.ViewModels
             if (contactObj != null)
             {
                 ContactView contact = contactObj as ContactView;
-                _index = ContactList.IndexOf(contact);
+                Index = ContactList.IndexOf(contact);
                 var p = new NavigationParameters { { "maContact", contact.ToContact() } };
                 await _navigationService.NavigateAsync("AddEditProfileView", p);
             }
