@@ -1,6 +1,6 @@
 ﻿namespace Contacts.Services.Settings
 {
-    public interface ISortSetting
+    public interface IAllSetting
     {
         int SortSet { get; set; }
     }

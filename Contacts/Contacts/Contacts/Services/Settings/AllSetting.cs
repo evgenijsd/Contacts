@@ -1,12 +1,13 @@
 ﻿using Xamarin.Essentials;
+using static Contacts.Services.Settings.SettingsType;
 
 namespace Contacts.Services.Settings
 {
-    public class SortSetting : ISortSetting
+    public class AllSetting : IAllSetting
     {
         public int SortSet
         {
-            get => Preferences.Get(nameof(SortSet), 0);
+            get => Preferences.Get(nameof(SortSet), (int)SetE.SortByName);
             set => Preferences.Set(nameof(SortSet), value);
         }
     }

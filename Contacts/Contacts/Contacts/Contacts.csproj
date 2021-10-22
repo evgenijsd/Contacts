@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Services\Repository\ley3nlw1.uev~" />
     <None Remove="Services\SignUp\c4j0ux13.mj5~" />
     <None Remove="ViewModels\h1xl2wxv.pfs~" />
   </ItemGroup>

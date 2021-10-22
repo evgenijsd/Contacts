@@ -3,6 +3,7 @@ using SQLite;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Contacts.Services.Repository
@@ -19,35 +20,31 @@ namespace Contacts.Services.Repository
                 SQLiteAsyncConnection database = new SQLiteAsyncConnection(path);
 
                 database.CreateTableAsync<ContactModel>();
-                database.CreateTableAsync<ContactModel>();
+                database.CreateTableAsync<UserModel>();
 
                 return database;
             });
         }
 
-        public Task<int> AddAsync<T>(T entity) where T : IEntity, new()
-        {
-            return _database.Value.InsertAsync(entity);
-        }
+        public async Task<int> AddAsync<T>(T entity) where T : IEntity, new() => 
+            await _database.Value.InsertAsync(entity);
 
-        public Task<List<T>> GetAllAsync<T>() where T : IEntity, new()
-        {
-            return _database.Value.Table<T>().ToListAsync();
-        }
+        public async Task<List<T>> GetAllAsync<T>() where T : IEntity, new() => 
+            await _database.Value.Table<T>().ToListAsync();
 
-        public Task<T> GetByIdAsync<T>(int id) where T : IEntity, new()
-        {
-            return _database.Value.GetAsync<T>(id);
-        }
+        public async Task<T> GetByIdAsync<T>(int id) where T : IEntity, new() => 
+            await _database.Value.GetAsync<T>(id);
 
-        public Task<int> RemoveAsync<T>(T entity) where T : IEntity, new()
-        {
-            return _database.Value.DeleteAsync(entity);
-        }
+        public async Task<int> RemoveAsync<T>(T entity) where T : IEntity, new() => 
+            await _database.Value.DeleteAsync(entity);
 
-        public Task<int> UpdateAsync<T>(T entity) where T : IEntity, new()
-        {
-            return _database.Value.UpdateAsync(entity);
-        }
+        public async Task<int> UpdateAsync<T>(T entity) where T : IEntity, new() => 
+            await _database.Value.UpdateAsync(entity);
+
+        public async Task<T> FindAsync<T>(Expression<Func<T, bool>> expression) where T : IEntity, new() =>
+            await _database.Value.FindAsync<T>(expression);
+
+        public async Task<List<T>> GetAsync<T>(Expression<Func<T, bool>> expression) where T : IEntity, new() =>
+            await _database.Value.Table<T>().Where(expression).ToListAsync();
     }
 }

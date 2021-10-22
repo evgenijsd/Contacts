@@ -15,8 +15,7 @@ namespace Contacts.Services.SignIn
 
         public async Task<int> CheckAsync(string Login, string Password)
         {
-            var userList = await _repository.GetAllAsync<UserModel>();
-            var user = userList.FirstOrDefault(x => x.Login == Login);
+            var user = await _repository.FindAsync<UserModel>(x => x.Login == Login);
             if (user != null && user.Login == Login && user.Password == Password)
             {
                 return user.Id;

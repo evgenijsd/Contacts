@@ -4,32 +4,35 @@ using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
 using System.ComponentModel;
+using static Contacts.Services.Settings.SettingsType;
 
 namespace Contacts.ViewModels
 {
     public class SettingsViewModel : BindableBase
     {
         private IPageDialogService _dialogs { get; }
-        private ISortSetting _sortSetting;
+        private IAllSetting _sortSetting;
         private INavigationService _navigationService { get; }
-        public DelegateCommand<string> ButtonClickCommand { get; private set; }
+        
 
-        public SettingsViewModel(IPageDialogService dialogs, INavigationService navigationService, ISortSetting sortSetting)
+        public SettingsViewModel(INavigationService navigationService, IAllSetting sortSetting)
         {
-            _dialogs = dialogs;
             _sortSetting = sortSetting;
             _navigationService = navigationService;
             SortSet = _sortSetting.SortSet;
-            switch (SortSet)
+            switch ((SetE)SortSet)
             {
-                case 0: SortName = true; break;
-                case 1: SortNickName = true; break;
-                case 2: SortDate = true; break;
-                default: break;
+                case SetE.SortByName:
+                    SortName = true; break;
+                case SetE.SortByNickname:
+                    SortNickName = true; break;
+                case SetE.SortByData:
+                    SortDate = true; break;
             }
-            ButtonClickCommand = new DelegateCommand<string>(Execute);
+            MainListCommand = new DelegateCommand(OnMainListCommand);
         }
 
+        #region -- Public properties --
         private int _sortSet;
         public int SortSet
         {
@@ -58,45 +61,36 @@ namespace Contacts.ViewModels
             set { SetProperty(ref _sortDate, value); }
         }
 
+        public DelegateCommand MainListCommand { get; private set; }
+        #endregion
+
+        #region -- Overrides --
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             base.OnPropertyChanged(args);
 
-            if (args.PropertyName == nameof(SortName))
+            switch (args.PropertyName)
             {
-                if (SortName) SortSet = 0;
-            }
-            if (args.PropertyName == nameof(SortNickName))
-            {
-                if (SortNickName) SortSet = 1;
-            }
-            if (args.PropertyName == nameof(SortDate))
-            {
-                if (SortDate) SortSet = 2;
+                case nameof(SortName):
+                    if (SortName) SortSet = (int)SetE.SortByName;
+                    break;
+                case nameof(SortNickName):
+                    if (SortNickName) SortSet = (int)SetE.SortByNickname;
+                    break;
+                case nameof(SortDate):
+                    if (SortDate) SortSet = (int)SetE.SortByData;
+                    break;
             }
         }
-
-        private async void Execute(string parameter)
-        {
-            _sortSetting.SortSet = SortSet;
-            //await _dialogs.DisplayAlertAsync("Alert", $"sortsetting {SortSet}", "Ok");
-            var p = new NavigationParameters();
-            p.Add("sSet", SortSet);
-            await _navigationService.GoBackAsync(p);
-        }
-
-        #region -- Public properties --
-
-
-        #endregion
-
-        #region -- Overrides --
-
-
         #endregion
 
         #region -- Private helpers --
-
+        private async void OnMainListCommand()
+        {
+            _sortSetting.SortSet = SortSet;
+            var p = new NavigationParameters { { "sSet", SortSet } };
+            await _navigationService.GoBackAsync(p);
+        }
 
         #endregion
     }

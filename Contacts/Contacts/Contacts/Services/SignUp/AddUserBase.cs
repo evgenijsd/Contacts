@@ -1,6 +1,5 @@
 ﻿using Contacts.Models;
 using Contacts.Services.Repository;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Contacts.Services.SignUp
@@ -22,8 +21,8 @@ namespace Contacts.Services.SignUp
         public async Task<int> CheckTheCorrectnessAsync(string Login, string Password, string ConfirmPassword)
         {
             CheckEnter check = CheckEnter.ChecksArePassed;
-            var userList = await _repository.GetAllAsync<UserModel>();
-            if (userList.FirstOrDefault(x => x.Login == Login) != null)
+            var user = await _repository.FindAsync<UserModel>(x => x.Login == Login);
+            if (user != null)
             {
                 check = CheckEnter.LoginExist;
             }

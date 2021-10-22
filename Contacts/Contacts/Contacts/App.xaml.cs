@@ -1,4 +1,5 @@
-﻿using Contacts.Services.Repository;
+﻿using Contacts.Services.MainList;
+using Contacts.Services.Repository;
 using Contacts.Services.Settings;
 using Contacts.Services.SignIn;
 using Contacts.Services.SignUp;
@@ -6,9 +7,7 @@ using Contacts.ViewModels;
 using Contacts.Views;
 using Prism.Ioc;
 using Prism.Unity;
-using System;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace Contacts
 {
@@ -27,12 +26,12 @@ namespace Contacts
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            //containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();
             containerRegistry.RegisterInstance<IRepository>(Container.Resolve<Repository>());
             containerRegistry.RegisterInstance<IAuthenticationId>(Container.Resolve<AuthenticationId>());
             containerRegistry.RegisterInstance<IAddUserBase>(Container.Resolve<AddUserBase>());
-            containerRegistry.RegisterInstance<ISortSetting>(Container.Resolve<SortSetting>());
+            containerRegistry.RegisterInstance<IAllSetting>(Container.Resolve<AllSetting>());
             containerRegistry.RegisterInstance<IAuthentication>(Container.Resolve<Authentication>());
+            containerRegistry.RegisterInstance<IMainListService>(Container.Resolve<MainListService>());
 
 
             containerRegistry.RegisterForNavigation<NavigationPage>();

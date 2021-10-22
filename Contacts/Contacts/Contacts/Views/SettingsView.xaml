@@ -4,7 +4,7 @@
              x:Class="Contacts.Views.SettingsView" 
              Title="Settings">
     <ContentPage.ToolbarItems>
-        <ToolbarItem IconImageSource="save.png" Command="{Binding ButtonClickCommand}" CommandParameter="Hello"/>
+        <ToolbarItem IconImageSource="save.png" Command="{Binding MainListCommand}"/>
     </ContentPage.ToolbarItems>
     <StackLayout RadioButtonGroup.GroupName="Sort" Padding="30,30">
         <Label Text="SORT MODE" HorizontalOptions="Center" FontSize="Large"/>

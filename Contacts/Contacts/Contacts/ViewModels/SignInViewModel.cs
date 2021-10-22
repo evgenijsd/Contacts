@@ -72,11 +72,11 @@ namespace Contacts.ViewModels
         #region Public
         public async void Initialize(INavigationParameters parameters)
         {
-            await Task.Delay(TimeSpan.FromSeconds(1));
+            await Task.Delay(TimeSpan.FromSeconds(0.1));
             if (UserId > 0)
             {
-                var p = new NavigationParameters { { "mUserId", UserId } };
-                await _navigationService.NavigateAsync("/NavigationPage/MainListView");
+                var p = new NavigationParameters { { "smUserId", UserId } };
+                await _navigationService.NavigateAsync("/NavigationPage/MainListView", p);
             }
         }
 
@@ -124,8 +124,8 @@ namespace Contacts.ViewModels
             {
                 UserId = id;
                 _idAuthentication.UserId = id;
-                var p = new NavigationParameters { { "mUserId", id } };
-                await _navigationService.NavigateAsync("/NavigationPage/MainListView");
+                var p = new NavigationParameters { { "smUserId", id } };
+                await _navigationService.NavigateAsync("/NavigationPage/MainListView", p);
             }
             else
             {
