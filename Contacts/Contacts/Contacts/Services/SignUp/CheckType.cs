@@ -8,7 +8,10 @@
             LoginLengthNotValid,
             PasswordLengthNotValid,
             PasswordsNotEqual,
-            LoginExist
+            LoginExist,
+            LoginNotDigitalBegin,
+            PasswordBigSmallLetterAndDigit
+
         }
     }
 }

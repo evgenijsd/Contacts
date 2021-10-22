@@ -1,12 +1,12 @@
 ﻿using Contacts.Models;
 using Contacts.Services.Repository;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Contacts.Services.SignUp
 {
     public class AddUserBase : CheckType, IAddUserBase
     {
-
         private IRepository _repository;
         public AddUserBase(IRepository repository)
         {
@@ -20,7 +20,18 @@ namespace Contacts.Services.SignUp
 
         public async Task<int> CheckTheCorrectnessAsync(string Login, string Password, string ConfirmPassword)
         {
+            const string validLogin = @"^\d";
+            const string validPassword = @"^(?=.*[A-ZА-ЯЁҐЄЇІ])(?=.*[a-zа-яёґєїі])(?=.*\d)[\d\D]+$";
             CheckEnter check = CheckEnter.ChecksArePassed;
+
+            if (!Regex.IsMatch(Password, validPassword))
+            {
+                check = CheckEnter.PasswordBigSmallLetterAndDigit;
+            }
+            if (Regex.IsMatch(Login, validLogin))
+            {
+                check = CheckEnter.LoginNotDigitalBegin;
+            }
             var user = await _repository.FindAsync<UserModel>(x => x.Login == Login);
             if (user != null)
             {

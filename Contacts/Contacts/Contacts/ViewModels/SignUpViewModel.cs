@@ -98,6 +98,12 @@ namespace Contacts.ViewModels
                 case CheckEnter.LoginExist:
                     await _dialogs.DisplayAlertAsync("Alert", "This login is already taken", "Ok");
                     break;
+                case CheckEnter.LoginNotDigitalBegin:
+                    await _dialogs.DisplayAlertAsync("Alert", "Login can not start with a digital sign", "Ok");
+                    break;
+                case CheckEnter.PasswordBigSmallLetterAndDigit:
+                    await _dialogs.DisplayAlertAsync("Alert", "The password must contain a big, low letter and digit", "Ok");
+                    break;
                 default:
                     {
                         User.Login = Login;
