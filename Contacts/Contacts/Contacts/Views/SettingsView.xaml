@@ -8,8 +8,18 @@
     </ContentPage.ToolbarItems>
     <StackLayout RadioButtonGroup.GroupName="Sort" Padding="30,30">
         <Label Text="SORT MODE" HorizontalOptions="Center" FontSize="Large"/>
-        <RadioButton  Content="Sort by Name" IsChecked="{Binding SortName}"/>
-        <RadioButton  Content="Sort by NickName" IsChecked="{Binding SortNickName}"/>
-        <RadioButton  Content="Sort by Date" IsChecked="{Binding SortDate}"/>
+        <RadioButton  Content="  Sort by Name" IsChecked="{Binding SortName}"/>
+        <RadioButton  Content="  Sort by NickName" IsChecked="{Binding SortNickName}"/>
+        <RadioButton  Content="  Sort by Date" IsChecked="{Binding SortDate}"/>
+        <Label Text="THEME" HorizontalOptions="Center" Padding="0,20,0,0" FontSize="Large"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="8*"/>
+            </Grid.ColumnDefinitions>
+            <CheckBox Grid.Column="0" IsChecked="{Binding CanContinue}"/>
+            <Label Text="Set dark theme" Grid.Column="1" FontSize="Medium" HorizontalOptions="Start" Padding="0,2,0,0" TextColor="Black"/>
+            <Button Clicked="Button_Clicked" />
+        </Grid>
     </StackLayout>
 </ContentPage>

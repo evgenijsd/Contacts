@@ -1,14 +1,10 @@
 ﻿using Acr.UserDialogs;
 using Contacts.Models;
 using Contacts.Services.AddEditProfile;
-using Contacts.Services.Repository;
-using Contacts.Services.SignIn;
 using Prism.Mvvm;
 using Prism.Navigation;
-using Prism.Services;
 using System;
 using System.ComponentModel;
-using System.IO;
 using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;

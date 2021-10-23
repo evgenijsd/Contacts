@@ -1,4 +1,5 @@
 ﻿using Contacts.Models;
+using Contacts.Services.Settings;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,6 +13,6 @@ namespace Contacts.Services.MainList
     {
         Task DeleteContactAsync(ObservableCollection<ContactView> collecti, object contactObj);
         Task<ObservableCollection<ContactView>> GetCollectionAsync(int userId);
-        ObservableCollection<ContactView> SortCollection(ObservableCollection<ContactView> collection, SetE settings);
+        ObservableCollection<ContactView> SortCollection(ObservableCollection<ContactView> collection, SettingsType settings);
     }
 }

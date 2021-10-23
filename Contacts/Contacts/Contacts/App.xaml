@@ -4,9 +4,27 @@
              xmlns:prism="clr-namespace:Prism.Unity;assembly=Prism.Unity.Forms"
              x:Class="Contacts.App">
     <prism:PrismApplication.Resources>
-        <Color x:Key="PrimaryColor">#7E7D81</Color>
-        <Color x:Key="AccentColor">#00A5F2</Color>
+        <Color x:Key="PageBackgroundColor">Black</Color>
+        <Color x:Key="NavigationBarColor">Teal</Color>
+        <Color x:Key="PrimaryColor">#00A5F2</Color>
+        <Color x:Key="SecondaryColor">White</Color>
+        <Color x:Key="PrimaryTextColor">White</Color>
+        <Color x:Key="SecondaryTextColor">White</Color>
+        <Color x:Key="TertiaryTextColor">WhiteSmoke</Color>
+        <Color x:Key="TransparentColor">Transparent</Color>
+        <Color x:Key="AccentColor">#E65B30</Color>
         <Color x:Key="TextColor">White</Color>
-        
+        <Color x:Key="ButtonTextColor">Black</Color>
+
+        <Style TargetType="NavigationPage">
+            <Setter Property="BarBackgroundColor" Value="{StaticResource PrimaryColor}" />
+            <Setter Property="BarTextColor" Value="{StaticResource TextColor}" />
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="BackgroundColor" Value="{StaticResource AccentColor}" />
+            <Setter Property="TextColor" Value="{StaticResource ButtonTextColor}" />
+            <Setter Property="CornerRadius" Value="15" />
+        </Style>
     </prism:PrismApplication.Resources>
 </prism:PrismApplication>

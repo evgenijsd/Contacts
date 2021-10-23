@@ -13,7 +13,7 @@
             <Entry Text="{Binding Password}" Placeholder="Password" IsPassword="true" />
         </StackLayout>
         <StackLayout Grid.Row="1" Padding="20,0">
-            <Button Text="SIGN IN" BackgroundColor="#E65B30" Command="{Binding MainListCommand}"/>
+            <Button Text="SIGN IN" Command="{Binding MainListCommand}"/>
             <Label Text="SIGN UP" TextColor="Blue" TextDecorations="Underline" HorizontalOptions="Center" >
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding SignUpCommand}"/>

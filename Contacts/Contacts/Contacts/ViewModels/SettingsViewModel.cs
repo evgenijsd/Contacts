@@ -20,13 +20,13 @@ namespace Contacts.ViewModels
             _sortSetting = sortSetting;
             _navigationService = navigationService;
             SortSet = _sortSetting.SortSet;
-            switch ((SetE)SortSet)
+            switch ((SettingsType)SortSet)
             {
-                case SetE.SortByName:
+                case SettingsType.SortByName:
                     SortName = true; break;
-                case SetE.SortByNickname:
+                case SettingsType.SortByNickname:
                     SortNickName = true; break;
-                case SetE.SortByData:
+                case SettingsType.SortByData:
                     SortDate = true; break;
             }
             MainListCommand = new DelegateCommand(OnMainListCommand);
@@ -72,13 +72,13 @@ namespace Contacts.ViewModels
             switch (args.PropertyName)
             {
                 case nameof(SortName):
-                    if (SortName) SortSet = (int)SetE.SortByName;
+                    if (SortName) SortSet = (int)SettingsType.SortByName;
                     break;
                 case nameof(SortNickName):
-                    if (SortNickName) SortSet = (int)SetE.SortByNickname;
+                    if (SortNickName) SortSet = (int)SettingsType.SortByNickname;
                     break;
                 case nameof(SortDate):
-                    if (SortDate) SortSet = (int)SetE.SortByData;
+                    if (SortDate) SortSet = (int)SettingsType.SortByData;
                     break;
             }
         }

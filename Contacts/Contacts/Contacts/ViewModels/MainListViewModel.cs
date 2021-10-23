@@ -103,7 +103,7 @@ namespace Contacts.ViewModels
             set { SetProperty(ref _index, value); }
         }
 
-        private int _settings = (int)SetE.SortByName;
+        private int _settings = (int)SettingsType.SortByName;
         public int Settings
         {
             get { return _settings; }
@@ -140,7 +140,7 @@ namespace Contacts.ViewModels
 
             if (args.PropertyName == nameof(Settings))
             {
-                ContactList = _mainList.SortCollection(ContactList, (SetE)Settings);
+                ContactList = _mainList.SortCollection(ContactList, (SettingsType)Settings);
             }
         }
 

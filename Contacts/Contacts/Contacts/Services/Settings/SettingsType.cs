@@ -4,13 +4,10 @@ using System.Text;
 
 namespace Contacts.Services.Settings
 {
-    public class SettingsType
+    public enum SettingsType
     {
-        public enum SetE
-        {
-            SortByName,
-            SortByNickname,
-            SortByData
-        }
+        SortByName,
+        SortByNickname,
+        SortByData
     }
 }
