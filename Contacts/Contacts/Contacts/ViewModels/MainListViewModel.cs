@@ -1,17 +1,13 @@
 ﻿using Acr.UserDialogs;
 using Contacts.Models;
 using Contacts.Services.MainList;
-using Contacts.Services.Repository;
 using Contacts.Services.Settings;
-using Contacts.Services.SignIn;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
-using Prism.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using static Contacts.Services.Settings.SettingsType;
@@ -23,8 +19,6 @@ namespace Contacts.ViewModels
         private INavigationService _navigationService { get; }
         private IAllSetting _allSetting { get; set; }
         private IMainListService _mainList;
-        
-
 
         public MainListViewModel(INavigationService navigationService, IAllSetting allSetting, IMainListService mainList)
         {
@@ -33,6 +27,7 @@ namespace Contacts.ViewModels
             _allSetting = allSetting;
 
             AddCommand = new DelegateCommand(OnAddCommand);
+            PopUpCommand = new DelegateCommand<ContactView>(OnPopUpCommand);
         }
 
         #region Public
@@ -130,7 +125,7 @@ namespace Contacts.ViewModels
         }
 
         public DelegateCommand AddCommand { get; set; }
-
+        public DelegateCommand<ContactView> PopUpCommand { get; set; }
         #endregion
 
         #region -- Overrides --
@@ -185,6 +180,12 @@ namespace Contacts.ViewModels
                     await _mainList.DeleteContactAsync(ContactList, contactObj);
                 }
             }
+        }
+
+        private async void OnPopUpCommand(ContactView contact)
+        {
+            var p = new NavigationParameters { { "mpContact", contact } };
+            await _navigationService.NavigateAsync("PopUpView", p, useModalNavigation: true);
         }
         #endregion
     }

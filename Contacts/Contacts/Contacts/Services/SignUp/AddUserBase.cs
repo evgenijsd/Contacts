@@ -20,7 +20,7 @@ namespace Contacts.Services.SignUp
 
         public async Task<int> CheckTheCorrectnessAsync(string Login, string Password, string ConfirmPassword)
         {
-            const string validLogin = @"^\d";
+            const string validLogin = @"^\D";
             const string validPassword = @"^(?=.*[A-ZА-ЯЁҐЄЇІ])(?=.*[a-zа-яёґєїі])(?=.*\d)[\d\D]+$";
             CheckEnter check = CheckEnter.ChecksArePassed;
 
@@ -28,7 +28,7 @@ namespace Contacts.Services.SignUp
             {
                 check = CheckEnter.PasswordBigSmallLetterAndDigit;
             }
-            if (Regex.IsMatch(Login, validLogin))
+            if (!Regex.IsMatch(Login, validLogin))
             {
                 check = CheckEnter.LoginNotDigitalBegin;
             }

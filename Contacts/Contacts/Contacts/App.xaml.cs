@@ -42,7 +42,8 @@ namespace Contacts
             containerRegistry.RegisterForNavigation<MainListView, MainListViewModel>();
             containerRegistry.RegisterForNavigation<AddEditProfileView, AddEditProfileViewModel>();
             containerRegistry.RegisterForNavigation<SettingsView, SettingsViewModel>();
-            
+            containerRegistry.RegisterForNavigation<PopUpView, PopUpViewModel>();
+
         }
 
         protected override void OnStart()

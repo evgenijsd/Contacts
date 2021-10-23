@@ -17,6 +17,9 @@
                 <ListView x:Name="contactsList" 
                           HasUnevenRows="True" 
                           ItemsSource="{Binding ContactList}" >
+                    <ListView.Behaviors>
+                        <prism:EventToCommandBehavior EventName="ItemTapped" Command="{Binding PopUpCommand}" EventArgsParameterPath="Item"/>
+                    </ListView.Behaviors>
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
@@ -46,7 +49,7 @@
                 </ListView>
             </StackLayout>
         </ScrollView>
-        <Label Text="No profiles added." FontSize="Large" HorizontalOptions="Center" VerticalOptions="Center" IsVisible="{Binding IsNull}"/>
+        <Label Text="No profiles added." Grid.Row="0" FontSize="Large" HorizontalOptions="Center" VerticalOptions="Center" IsVisible="{Binding IsNull}"/>
         <ImageButton Source="add.png" Grid.Row="0" CornerRadius="40" HorizontalOptions="End" WidthRequest="80" HeightRequest="80" Margin="0,0,30,70" VerticalOptions="End" Command="{Binding AddCommand}"/>
     </Grid>
 </ContentPage>
