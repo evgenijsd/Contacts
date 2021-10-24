@@ -4,6 +4,7 @@ using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
 using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using Xamarin.Forms;
 
@@ -11,13 +12,17 @@ namespace Contacts.ViewModels
 {
     public class SettingsViewModel : BindableBase
     {
-        private IAllSetting _allSetting;
+        private IAllSetting _allSetting { get; set; }
         private INavigationService _navigationService { get; }
-        
+        private IPageDialogService _dialogs { get; }
 
-        public SettingsViewModel(INavigationService navigationService, IAllSetting allSetting)
+
+        public SettingsViewModel(INavigationService navigationService, IAllSetting allSetting, IPageDialogService dialogs)
         {
+            _dialogs = dialogs;
             _allSetting = allSetting;
+            Languages = _allSetting.GetLanguages();
+            CurrentLanguage = Languages[_allSetting.LangSet];
             _navigationService = navigationService;
             SortSet = _allSetting.SortSet;
             Theme = _allSetting.ThemeSet == (int)ThemeType.LightTheme? false : true;
@@ -73,6 +78,20 @@ namespace Contacts.ViewModels
             set { SetProperty(ref _theme, value); }
         }
 
+        private LangModel _currentLanguage;
+        public LangModel CurrentLanguage
+        {
+            get { return _currentLanguage; }
+            set { SetProperty(ref _currentLanguage, value); }
+        }
+
+        private ObservableCollection<LangModel> _languages;
+        public ObservableCollection<LangModel> Languages
+        {
+            get { return _languages; }
+            set { SetProperty(ref _languages, value); }
+        }
+
         public DelegateCommand MainListCommand { get; private set; }
         #endregion
 
@@ -99,7 +118,11 @@ namespace Contacts.ViewModels
         #region -- Private helpers --
         private async void OnMainListCommand()
         {
+            //_dialogs.DisplayAlertAsync("Alert", $"{SortSet}    {_allSetting.SortSet}", "Ok");
             _allSetting.SortSet = SortSet;
+            _allSetting.LangSet = CurrentLanguage.Key;
+            _allSetting.ChangeLanguage((LangType)CurrentLanguage.Key);
+            //_dialogs.DisplayAlertAsync("Alert", $"{SortSet}    {_allSetting.SortSet}", "Ok");
             _allSetting.ThemeSet = _allSetting.ChangeTheme(Theme);
             var p = new NavigationParameters { { "sSet", SortSet } };
             await _navigationService.GoBackAsync(p);

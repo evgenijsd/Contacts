@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:resurces="clr-namespace:Contacts.Resurces"
              x:Class="Contacts.Views.SettingsView" 
              Title="Settings"
              BackgroundColor="{AppThemeBinding Light={StaticResource LightPageBackgroundColor}, Dark={StaticResource DarkPageBackgroundColor}}">
@@ -8,7 +9,7 @@
         <ToolbarItem IconImageSource="save.png" Command="{Binding MainListCommand}"/>
     </ContentPage.ToolbarItems>
     <StackLayout RadioButtonGroup.GroupName="Sort" Padding="30,30">
-        <Label Text="SORT MODE" HorizontalOptions="Center" FontSize="Large" Style="{StaticResource LabelStyle}"/>
+        <Label Text="{x:Static resurces:Resource.LabelSort}" HorizontalOptions="Center" FontSize="Large" Style="{StaticResource LabelStyle}"/>
         <RadioButton  Content="Sort by Name" IsChecked="{Binding SortName}" Style="{StaticResource RadioStyle}"/>
         <RadioButton  Content="Sort by NickName" IsChecked="{Binding SortNickName}" Style="{StaticResource RadioStyle}"/>
         <RadioButton  Content="Sort by Date" IsChecked="{Binding SortDate}" Style="{StaticResource RadioStyle}"/>
@@ -22,7 +23,7 @@
             <Label Text="Set dark theme" Grid.Column="1" FontSize="Medium" HorizontalOptions="Start" Padding="0,2,0,0" Style="{StaticResource LabelStyle}"/>
         </Grid>
         <Label Text="LANGUAGE" HorizontalOptions="Center" Padding="0,20,0,0" FontSize="Large" Style="{StaticResource LabelStyle}"/>
-        <Picker Title="English" ItemsSource="{Binding Languages}" ItemDisplayBinding="{Binding Name}" SelectedItem="{Binding CurrentLanguage}" FontSize="Medium" >
+        <Picker ItemsSource="{Binding Languages}" ItemDisplayBinding="{Binding Lang}" SelectedItem="{Binding CurrentLanguage}" FontSize="Medium" Style="{StaticResource PickerStyle}">
         </Picker>
     </StackLayout>
 </ContentPage>

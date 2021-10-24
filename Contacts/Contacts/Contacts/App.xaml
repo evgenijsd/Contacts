@@ -45,6 +45,14 @@
             <Setter Property="TextColor"
                     Value="{AppThemeBinding Light={StaticResource LightPrimaryTextColor}, Dark={StaticResource DarkSecondaryTextColor}}" />
         </Style>
+        
+        <Style x:Key="PickerStyle"
+               TargetType="Picker">
+            <Setter Property="TextColor"
+                    Value="{AppThemeBinding Light={StaticResource LightTertiaryTextColor}, Dark={StaticResource DarkTertiaryTextColor}}" />
+            <Setter Property="TitleColor"
+                    Value="{AppThemeBinding Light={StaticResource LightTertiaryTextColor}, Dark={StaticResource DarkTertiaryTextColor}}" />
+        </Style>
 
         <Style x:Key="EntryStyle"
                TargetType="Entry">
@@ -59,7 +67,7 @@
             <Setter Property="TextColor"
                     Value="{AppThemeBinding Light={StaticResource LightPrimaryTextColor}, Dark={StaticResource DarkSecondaryTextColor}}" />
             <Setter Property="BackgroundColor"
-                    Value="{AppThemeBinding Light={StaticResource LightPageBackgroundColor}, Dark={StaticResource DarkNavigationBarColor}}" />
+                    Value="{AppThemeBinding Light={StaticResource LightPageBackgroundColor}, Dark={StaticResource DarkPrimaryColor}}" />
 
         </Style>
 
