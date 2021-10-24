@@ -3,31 +3,36 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
+using System;
 using System.ComponentModel;
-using static Contacts.Services.Settings.SettingsType;
+using Xamarin.Forms;
 
 namespace Contacts.ViewModels
 {
     public class SettingsViewModel : BindableBase
     {
-        private IPageDialogService _dialogs { get; }
-        private IAllSetting _sortSetting;
+        private IAllSetting _allSetting;
         private INavigationService _navigationService { get; }
         
 
-        public SettingsViewModel(INavigationService navigationService, IAllSetting sortSetting)
+        public SettingsViewModel(INavigationService navigationService, IAllSetting allSetting)
         {
-            _sortSetting = sortSetting;
+            _allSetting = allSetting;
             _navigationService = navigationService;
-            SortSet = _sortSetting.SortSet;
-            switch ((SetE)SortSet)
+            SortSet = _allSetting.SortSet;
+            Theme = _allSetting.ThemeSet == (int)ThemeType.LightTheme? false : true;
+
+            switch ((SortType)SortSet)
             {
-                case SetE.SortByName:
-                    SortName = true; break;
-                case SetE.SortByNickname:
-                    SortNickName = true; break;
-                case SetE.SortByData:
-                    SortDate = true; break;
+                case SortType.SortByName:
+                    SortName = true; 
+                    break;
+                case SortType.SortByNickname:
+                    SortNickName = true; 
+                    break;
+                case SortType.SortByData:
+                    SortDate = true; 
+                    break;
             }
             MainListCommand = new DelegateCommand(OnMainListCommand);
         }
@@ -61,6 +66,13 @@ namespace Contacts.ViewModels
             set { SetProperty(ref _sortDate, value); }
         }
 
+        private bool _theme;
+        public bool Theme
+        {
+            get { return _theme; }
+            set { SetProperty(ref _theme, value); }
+        }
+
         public DelegateCommand MainListCommand { get; private set; }
         #endregion
 
@@ -72,13 +84,13 @@ namespace Contacts.ViewModels
             switch (args.PropertyName)
             {
                 case nameof(SortName):
-                    if (SortName) SortSet = (int)SetE.SortByName;
+                    if (SortName) SortSet = (int)SortType.SortByName;
                     break;
                 case nameof(SortNickName):
-                    if (SortNickName) SortSet = (int)SetE.SortByNickname;
+                    if (SortNickName) SortSet = (int)SortType.SortByNickname;
                     break;
                 case nameof(SortDate):
-                    if (SortDate) SortSet = (int)SetE.SortByData;
+                    if (SortDate) SortSet = (int)SortType.SortByData;
                     break;
             }
         }
@@ -87,7 +99,8 @@ namespace Contacts.ViewModels
         #region -- Private helpers --
         private async void OnMainListCommand()
         {
-            _sortSetting.SortSet = SortSet;
+            _allSetting.SortSet = SortSet;
+            _allSetting.ThemeSet = _allSetting.ChangeTheme(Theme);
             var p = new NavigationParameters { { "sSet", SortSet } };
             await _navigationService.GoBackAsync(p);
         }

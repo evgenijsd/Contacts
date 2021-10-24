@@ -32,15 +32,33 @@ namespace Contacts.Services.AddEditProfile
             return result;
         }
 
-        public async Task<string> Photo()
+        public async Task<string> Photo(ImageChoise choise)
         {
-            var photo = await MediaPicker.CapturePhotoAsync();
-            var newFile = Path.Combine(FileSystem.AppDataDirectory, photo.FileName);
-            using (var stream = await photo.OpenReadAsync())
-            using (var newStream = File.OpenWrite(newFile))
-                await stream.CopyToAsync(newStream);
+            string result = "user.png";
 
-            return photo.FullPath;
+            switch (choise)
+            {
+                case ImageChoise.gallery:
+                    try
+                    {
+                        result = (await MediaPicker.PickPhotoAsync()).FullPath;
+                    }
+                    catch { }
+                    break;
+                case ImageChoise.camera:
+                    try
+                    {
+                        var photo = await MediaPicker.CapturePhotoAsync();
+                        var newFile = Path.Combine(FileSystem.AppDataDirectory, photo.FileName);
+                        using (var stream = await photo.OpenReadAsync())
+                        using (var newStream = File.OpenWrite(newFile))
+                            await stream.CopyToAsync(newStream);
+                        result = photo.FullPath;
+                    }
+                    catch { }
+                    break;
+            }
+            return result;
         }
     }
 }

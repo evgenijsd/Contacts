@@ -19,7 +19,6 @@ namespace Contacts.ViewModels
     {
         private INavigationService _navigationService { get; }
         private IAddEditService _addEdit;
-        enum ImageChoise { gallery, camera }
 
         public AddEditProfileViewModel(INavigationService navigationService, IAddEditService addEdit)
         {
@@ -170,15 +169,7 @@ namespace Contacts.ViewModels
 
         private async void ResultGalleryPhoto(ImageChoise choise)
         {
-            switch (choise)
-            {
-                case ImageChoise.gallery:
-                    Image = (await MediaPicker.PickPhotoAsync()).FullPath;
-                    break;
-                case ImageChoise.camera:
-                    Image = await _addEdit.Photo();
-                    break;
-            }
+            Image = await _addEdit.Photo(choise);
         }
 
         private async void OnSaveCommandAsync()

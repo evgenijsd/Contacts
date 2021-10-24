@@ -1,9 +1,9 @@
 ﻿using Contacts.Models;
 using Contacts.Services.Repository;
+using Contacts.Services.Settings;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using static Contacts.Services.Settings.SettingsType;
 
 namespace Contacts.Services.MainList
 {
@@ -24,15 +24,15 @@ namespace Contacts.Services.MainList
             collection.Remove(contact);
         }
 
-        public ObservableCollection<ContactView> SortCollection(ObservableCollection<ContactView> collection, SetE settings)
+        public ObservableCollection<ContactView> SortCollection(ObservableCollection<ContactView> collection, SortType settings)
         {
             switch (settings)
             {
-                case SetE.SortByName:
+                case SortType.SortByName:
                     collection = new ObservableCollection<ContactView>(collection.OrderBy(x => x.Name)); break;
-                case SetE.SortByNickname:
+                case SortType.SortByNickname:
                     collection = new ObservableCollection<ContactView>(collection.OrderBy(x => x.Nickname)); break;
-                case SetE.SortByData:
+                case SortType.SortByData:
                     collection = new ObservableCollection<ContactView>(collection.OrderBy(x => x.Date)); break;
             }
             return collection;

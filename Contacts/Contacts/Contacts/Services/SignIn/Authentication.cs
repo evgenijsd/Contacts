@@ -15,11 +15,17 @@ namespace Contacts.Services.SignIn
 
         public async Task<int> CheckAsync(string Login, string Password)
         {
-            var user = await _repository.FindAsync<UserModel>(x => x.Login == Login);
-            if (user != null && user.Login == Login && user.Password == Password)
+            try
             {
-                return user.Id;
+                var user = await _repository.FindAsync<UserModel>(x => x.Login == Login);
+                if (user != null && user.Login == Login && user.Password == Password)
+                {
+                    return user.Id;
+                }
             }
+            catch
+            { }
+
             return 0;
         }
     }

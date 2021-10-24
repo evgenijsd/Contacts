@@ -2,14 +2,27 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Contacts.Views.SettingsView" 
-             Title="Settings">
+             Title="Settings"
+             BackgroundColor="{AppThemeBinding Light={StaticResource LightPageBackgroundColor}, Dark={StaticResource DarkPageBackgroundColor}}">
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="save.png" Command="{Binding MainListCommand}"/>
     </ContentPage.ToolbarItems>
     <StackLayout RadioButtonGroup.GroupName="Sort" Padding="30,30">
-        <Label Text="SORT MODE" HorizontalOptions="Center" FontSize="Large"/>
-        <RadioButton  Content="Sort by Name" IsChecked="{Binding SortName}"/>
-        <RadioButton  Content="Sort by NickName" IsChecked="{Binding SortNickName}"/>
-        <RadioButton  Content="Sort by Date" IsChecked="{Binding SortDate}"/>
+        <Label Text="SORT MODE" HorizontalOptions="Center" FontSize="Large" Style="{StaticResource LabelStyle}"/>
+        <RadioButton  Content="Sort by Name" IsChecked="{Binding SortName}" Style="{StaticResource RadioStyle}"/>
+        <RadioButton  Content="Sort by NickName" IsChecked="{Binding SortNickName}" Style="{StaticResource RadioStyle}"/>
+        <RadioButton  Content="Sort by Date" IsChecked="{Binding SortDate}" Style="{StaticResource RadioStyle}"/>
+        <Label Text="THEME" HorizontalOptions="Center" Padding="0,20,0,0" FontSize="Large" Style="{StaticResource LabelStyle}"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="8*"/>
+            </Grid.ColumnDefinitions>
+            <CheckBox Grid.Column="0" IsChecked="{Binding Theme}" HorizontalOptions="End"/>
+            <Label Text="Set dark theme" Grid.Column="1" FontSize="Medium" HorizontalOptions="Start" Padding="0,2,0,0" Style="{StaticResource LabelStyle}"/>
+        </Grid>
+        <Label Text="LANGUAGE" HorizontalOptions="Center" Padding="0,20,0,0" FontSize="Large" Style="{StaticResource LabelStyle}"/>
+        <Picker Title="English" ItemsSource="{Binding Languages}" ItemDisplayBinding="{Binding Name}" SelectedItem="{Binding CurrentLanguage}" FontSize="Medium" >
+        </Picker>
     </StackLayout>
 </ContentPage>

@@ -1,4 +1,5 @@
 ﻿using Contacts.Models;
+using Contacts.Services.Settings;
 using Contacts.Services.SignIn;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -16,15 +17,19 @@ namespace Contacts.ViewModels
         private IPageDialogService _dialogs { get; }
         private IAuthenticationId _idAuthentication { get; set; }
         private IAuthentication _authentication;
+        private IAllSetting _allSetting;
 
-        public SignInViewModel(INavigationService navigationService, IPageDialogService dialogs, IAuthenticationId idAuthentication, IAuthentication authentication, UserModel user)
+        public SignInViewModel(INavigationService navigationService, IPageDialogService dialogs, 
+            IAuthenticationId idAuthentication, IAuthentication authentication, UserModel user, IAllSetting allSetting)
         {
             _navigationService = navigationService;
             _dialogs = dialogs;
+            _allSetting = allSetting;
             _authentication = authentication;
             _idAuthentication = idAuthentication;
             UserId = _idAuthentication.UserId;
             _user = user;
+            _allSetting.ChangeTheme(_allSetting.ThemeSet == (int)ThemeType.LightTheme ? false : true);
 
             MainListCommand = new DelegateCommand(OnMainListCommand).ObservesCanExecute(() => IsActive);
             SignUpCommand = new DelegateCommand(OnSignUpCommand);

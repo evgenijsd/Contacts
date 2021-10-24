@@ -10,7 +10,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-using static Contacts.Services.Settings.SettingsType;
 
 namespace Contacts.ViewModels
 {
@@ -103,7 +102,7 @@ namespace Contacts.ViewModels
             set { SetProperty(ref _index, value); }
         }
 
-        private int _settings = (int)SetE.SortByName;
+        private int _settings = (int)SortType.SortByName;
         public int Settings
         {
             get { return _settings; }
@@ -140,7 +139,7 @@ namespace Contacts.ViewModels
 
             if (args.PropertyName == nameof(Settings))
             {
-                ContactList = _mainList.SortCollection(ContactList, (SetE)Settings);
+                ContactList = _mainList.SortCollection(ContactList, (SortType)Settings);
             }
         }
 

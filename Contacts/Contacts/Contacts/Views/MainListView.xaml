@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              x:Class="Contacts.Views.MainListView" 
-             Title="Main List">
+             Title="Main List"
+             BackgroundColor="{AppThemeBinding Light={StaticResource LightPageBackgroundColor}, Dark={StaticResource DarkPageBackgroundColor}}">
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="logout.png" Command="{prism:NavigateTo '/NavigationPage/SignInView?UserIdNull=0'}" />
         <ToolbarItem IconImageSource="settings.png" Command="{prism:NavigateTo 'SettingsView'}" />
@@ -37,9 +38,9 @@
                                             <Image Source="{Binding Image}"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="1">
-                                            <Label Text="{Binding Name}" FontSize="Medium" />
-                                            <Label Text="{Binding Nickname}" FontSize="Small" />
-                                            <Label Text="{Binding Date}" FontSize="Small" />
+                                            <Label Text="{Binding Name}" FontSize="Medium" Style="{StaticResource LabelStyle}"/>
+                                            <Label Text="{Binding Nickname}" FontSize="Small" Style="{StaticResource LabelStyle}"/>
+                                            <Label Text="{Binding Date}" FontSize="Small" Style="{StaticResource LabelStyle}"/>
                                         </StackLayout>
                                     </Grid>
                                 </ViewCell.View>
@@ -49,7 +50,7 @@
                 </ListView>
             </StackLayout>
         </ScrollView>
-        <Label Text="No profiles added." Grid.Row="0" FontSize="Large" HorizontalOptions="Center" VerticalOptions="Center" IsVisible="{Binding IsNull}"/>
+        <Label Text="No profiles added." Grid.Row="0" FontSize="Large" HorizontalOptions="Center" VerticalOptions="Center" IsVisible="{Binding IsNull}" Style="{StaticResource LabelStyle}"/>
         <ImageButton Source="add.png" Grid.Row="0" CornerRadius="40" HorizontalOptions="End" WidthRequest="80" HeightRequest="80" Margin="0,0,30,70" VerticalOptions="End" Command="{Binding AddCommand}"/>
     </Grid>
 </ContentPage>
