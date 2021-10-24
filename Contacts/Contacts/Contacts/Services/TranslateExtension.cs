@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Contacts.Services.Settings;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
@@ -12,12 +13,15 @@ namespace Contacts.Services
     [ContentProperty("Text")]
     public class TranslateExtension : IMarkupExtension
     {
-        readonly CultureInfo ci;
+        private readonly CultureInfo ci;
         const string ResourceId = "Contacts.Resurces.Resource";
+        private IAllSetting _allSetting { get; set; }
 
         public TranslateExtension()
         {
-            ci = DependencyService.Get<ILocalize>().GetCurrentCultureInfo();
+            _allSetting = new AllSetting();
+            ci = new CultureInfo(_allSetting.Language((LangType)_allSetting.LangSet));
+            //ci = DependencyService.Get<ILocalize>().GetCurrentCultureInfo();
         }
 
         public string Text { get; set; }

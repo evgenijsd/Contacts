@@ -45,19 +45,23 @@ namespace Contacts.Services.Settings
         }
         #endregion
 
-        public void ChangeLanguage(LangType language)
+        public string Language(LangType language)
         {
+            string result = "en-US";
             switch (language)
             {
                 case LangType.English:
-                    CultureInfo cien = new CultureInfo("en-US");
-                    CultureInfo.CurrentCulture = cien;
+                    result = "en-US";
+                    CultureInfo.CurrentCulture = new CultureInfo(result);
+                    CultureInfo.CurrentUICulture = new CultureInfo(result);
                     break;
                 case LangType.Russian:
-                    CultureInfo ciru = new CultureInfo("ru-RU");
-                    CultureInfo.CurrentCulture = ciru;
+                    result = "ru-RU";
+                    CultureInfo.CurrentCulture = new CultureInfo(result);
+                    CultureInfo.CurrentUICulture = new CultureInfo(result);
                     break;
             }
+            return result;
             
         }
 

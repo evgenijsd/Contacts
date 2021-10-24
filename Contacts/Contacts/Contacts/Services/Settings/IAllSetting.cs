@@ -9,7 +9,7 @@ namespace Contacts.Services.Settings
         int ThemeSet { get; set; }
         int LangSet { get; set; }
         int ChangeTheme(bool theme);
-        void ChangeLanguage(LangType language);
+        string Language(LangType language);
         ObservableCollection<LangModel> GetLanguages();
     }
 }

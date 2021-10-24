@@ -18,9 +18,8 @@ namespace Contacts.ViewModels
         private IPageDialogService _dialogs { get; }
 
 
-        public SettingsViewModel(INavigationService navigationService, IAllSetting allSetting, IPageDialogService dialogs)
+        public SettingsViewModel(INavigationService navigationService, IAllSetting allSetting)
         {
-            _dialogs = dialogs;
             _allSetting = allSetting;
             Languages = _allSetting.GetLanguages();
             CurrentLanguage = Languages[_allSetting.LangSet];
@@ -119,13 +118,11 @@ namespace Contacts.ViewModels
         #region -- Private helpers --
         private async void OnMainListCommand()
         {
-            //_dialogs.DisplayAlertAsync("Alert", $"{SortSet}    {_allSetting.SortSet}", "Ok");
             _allSetting.SortSet = SortSet;
             _allSetting.LangSet = CurrentLanguage.Key;
-            _allSetting.ChangeLanguage((LangType)CurrentLanguage.Key);
             _allSetting.ThemeSet = _allSetting.ChangeTheme(Theme);
             var p = new NavigationParameters { { "sSet", SortSet } };
-            await _navigationService.GoBackAsync(p);
+            await _navigationService.NavigateAsync("SignInView", p);
         }
 
         #endregion
