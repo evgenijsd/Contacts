@@ -1,11 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:res="clr-namespace:Contacts.Services;assembly=Contacts"
+             xmlns:prism="http://prismlibrary.com"
              x:Class="Contacts.Views.MainListView" 
-             Title="Main List">
+             Title="{res:Translate TitleMain}"
+             BackgroundColor="{AppThemeBinding Light={StaticResource LightPageBackgroundColor}, Dark={StaticResource DarkPageBackgroundColor}}">
     <ContentPage.ToolbarItems>
-        <ToolbarItem IconImageSource="logout.png" Clicked="LogOut_ClickedAsync" />
-        <ToolbarItem IconImageSource="settings.png" Clicked="Settings_Clicked" />
+        <ToolbarItem IconImageSource="logout.png" Command="{prism:NavigateTo '/NavigationPage/SignInView?UserIdNull=0'}" />
+        <ToolbarItem IconImageSource="settings.png" Command="{prism:NavigateTo 'SettingsView'}" />
     </ContentPage.ToolbarItems>
     <Grid>
         <Grid.RowDefinitions>
@@ -15,13 +18,16 @@
             <StackLayout>
                 <ListView x:Name="contactsList" 
                           HasUnevenRows="True" 
-                          ItemsSource="{Binding Contacts}" >
+                          ItemsSource="{Binding ContactList}" >
+                    <ListView.Behaviors>
+                        <prism:EventToCommandBehavior EventName="ItemTapped" Command="{Binding PopUpCommand}" EventArgsParameterPath="Item"/>
+                    </ListView.Behaviors>
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
                                 <ViewCell.ContextActions>
-                                    <MenuItem Text="EDIT" />
-                                    <MenuItem Text="DELETE" />
+                                    <MenuItem Text="{res:Translate MenuEdit}" Command="{Binding Path=EditCommand}" CommandParameter="{Binding}" />
+                                    <MenuItem Text="{res:Translate MenuDel}" Command="{Binding Path=DeleteCommand}" CommandParameter="{Binding}" />
                                 </ViewCell.ContextActions>
                                 <ViewCell.View>
                                     <Grid>
@@ -33,9 +39,9 @@
                                             <Image Source="{Binding Image}"/>
                                         </StackLayout>
                                         <StackLayout Grid.Column="1">
-                                            <Label Text="{Binding Name}" FontSize="Medium" />
-                                            <Label Text="{Binding NickName}" FontSize="Small" />
-                                            <Label Text="{Binding Date}" FontSize="Small" />
+                                            <Label Text="{Binding Name}" FontSize="Medium" Style="{StaticResource LabelStyle}"/>
+                                            <Label Text="{Binding Nickname}" FontSize="Small" Style="{StaticResource LabelStyle}"/>
+                                            <Label Text="{Binding Date}" FontSize="Small" Style="{StaticResource LabelStyle}"/>
                                         </StackLayout>
                                     </Grid>
                                 </ViewCell.View>
@@ -45,6 +51,7 @@
                 </ListView>
             </StackLayout>
         </ScrollView>
-        <ImageButton Source="add.png" Grid.Row="0" CornerRadius="40" HorizontalOptions="End" WidthRequest="80" HeightRequest="80" Margin="0,0,30,70" VerticalOptions="End" Clicked="AddProfile_Clicked" />
+        <Label Text="{res:Translate LabelNoProfile}" Grid.Row="0" FontSize="Large" HorizontalOptions="Center" VerticalOptions="Center" IsVisible="{Binding IsNull}" Style="{StaticResource LabelStyle}"/>
+        <ImageButton Source="add.png" Grid.Row="0" CornerRadius="40" HorizontalOptions="End" WidthRequest="80" HeightRequest="80" Margin="0,0,30,70" VerticalOptions="End" Command="{Binding AddCommand}"/>
     </Grid>
 </ContentPage>

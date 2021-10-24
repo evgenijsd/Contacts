@@ -1,15 +1,29 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:res="clr-namespace:Contacts.Services;assembly=Contacts"
              x:Class="Contacts.Views.SettingsView" 
-             Title="Settings">
+             Title="{res:Translate TitleSettings}"
+             BackgroundColor="{AppThemeBinding Light={StaticResource LightPageBackgroundColor}, Dark={StaticResource DarkPageBackgroundColor}}">
     <ContentPage.ToolbarItems>
-        <ToolbarItem IconImageSource="save.png"/>
+        <ToolbarItem IconImageSource="save.png" Command="{Binding MainListCommand}"/>
     </ContentPage.ToolbarItems>
-    <StackLayout Padding="30,30">
-        <Label x:Name="messageLabel" Text="SORT MODE" HorizontalOptions="Center" FontSize="Large"/>
-        <RadioButton  GroupName="Sort" Content="Sort by Name" />
-        <RadioButton  GroupName="Sort" Content="Sort by NickName" />
-        <RadioButton  GroupName="Sort" Content="Sort by Date" />
+    <StackLayout RadioButtonGroup.GroupName="Sort" Padding="30,30">
+        <Label Text="{res:Translate LabelSort}" HorizontalOptions="Center" FontSize="Large" Style="{StaticResource LabelStyle}"/>
+        <RadioButton  Content="{res:Translate LabelName}" IsChecked="{Binding SortName}" Style="{StaticResource RadioStyle}"/>
+        <RadioButton  Content="{res:Translate LabelNickname}" IsChecked="{Binding SortNickName}" Style="{StaticResource RadioStyle}"/>
+        <RadioButton  Content="{res:Translate LabelDate}" IsChecked="{Binding SortDate}" Style="{StaticResource RadioStyle}"/>
+        <Label Text="{res:Translate LabelTheme}" HorizontalOptions="Center" Padding="0,20,0,0" FontSize="Large" Style="{StaticResource LabelStyle}"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="8*"/>
+            </Grid.ColumnDefinitions>
+            <CheckBox Grid.Column="0" IsChecked="{Binding Theme}" HorizontalOptions="End"/>
+            <Label Text="{res:Translate LabelSetTheme}" Grid.Column="1" FontSize="Medium" HorizontalOptions="Start" Padding="0,2,0,0" Style="{StaticResource LabelStyle}"/>
+        </Grid>
+        <Label Text="{res:Translate LabelLang}" HorizontalOptions="Center" Padding="0,20,0,0" FontSize="Large" Style="{StaticResource LabelStyle}"/>
+        <Picker ItemsSource="{Binding Languages}" ItemDisplayBinding="{Binding Lang}" SelectedItem="{Binding CurrentLanguage}" FontSize="Medium" Style="{StaticResource PickerStyle}">
+        </Picker>
     </StackLayout>
 </ContentPage>

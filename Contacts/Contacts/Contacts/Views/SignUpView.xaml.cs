@@ -10,16 +10,11 @@ using Xamarin.Forms.Xaml;
 namespace Contacts.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SignUpView : ContentPage
+    public partial class SignUpView
     {
         public SignUpView()
         {
             InitializeComponent();
-        }
-
-        private void ButtonIn_Clicked(object sender, EventArgs e)
-        {
-            Navigation.PushAsync(new SignInView());
         }
     }
 }
