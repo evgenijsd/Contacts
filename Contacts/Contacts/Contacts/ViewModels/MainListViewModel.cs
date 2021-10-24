@@ -61,7 +61,7 @@ namespace Contacts.ViewModels
                 {
                     contact.DeleteCommand = new Command(OnDeleteCommand);
                     contact.EditCommand = new Command(OnEditCommand);
-                    if (ContactList[Index].Id == contact.Id)
+                    if (ContactList.Count > 0 && ContactList[Index].Id == contact.Id)
                     {
                         ContactList[Index] = contact;
                     }

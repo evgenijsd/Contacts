@@ -30,6 +30,7 @@ namespace Contacts.ViewModels
             UserId = _idAuthentication.UserId;
             _user = user;
             _allSetting.ChangeTheme(_allSetting.ThemeSet == (int)ThemeType.LightTheme ? false : true);
+            _allSetting.ChangeLanguage((LangType)_allSetting.LangSet);
 
             MainListCommand = new DelegateCommand(OnMainListCommand).ObservesCanExecute(() => IsActive);
             SignUpCommand = new DelegateCommand(OnSignUpCommand);
@@ -134,7 +135,7 @@ namespace Contacts.ViewModels
             }
             else
             {
-                await _dialogs.DisplayAlertAsync("Alert", "Invalid login or password!", "Ok");
+                await _dialogs.DisplayAlertAsync("Alert", Resurces.Resource.AlertSignIn, "Ok");
                 Password = string.Empty;
             }
         }

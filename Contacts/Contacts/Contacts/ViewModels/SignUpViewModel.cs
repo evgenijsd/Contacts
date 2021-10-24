@@ -87,30 +87,34 @@ namespace Contacts.ViewModels
             switch (check)
             {
                 case CheckEnter.LoginLengthNotValid:
-                    await _dialogs.DisplayAlertAsync("Alert", "Login less than 4 and more than 16 characters", "Ok");
+                    await _dialogs.DisplayAlertAsync("Alert", Resurces.Resource.AlertLoginLength, "Ok");
                     break;
                 case CheckEnter.PasswordLengthNotValid:
-                    await _dialogs.DisplayAlertAsync("Alert", "Password less than 8 and more than 16 characters", "Ok");
+                    await _dialogs.DisplayAlertAsync("Alert", Resurces.Resource.AlertPasswordLength, "Ok");
                     break;
                 case CheckEnter.PasswordsNotEqual:
-                    await _dialogs.DisplayAlertAsync("Alert", "Password and confirm password do not coincide", "Ok");
+                    await _dialogs.DisplayAlertAsync("Alert", Resurces.Resource.AlerPasswordConfirm, "Ok");
                     break;
                 case CheckEnter.LoginExist:
-                    await _dialogs.DisplayAlertAsync("Alert", "This login is already taken", "Ok");
+                    await _dialogs.DisplayAlertAsync("Alert", Resurces.Resource.AlertLoginTaken, "Ok");
                     break;
                 case CheckEnter.LoginNotDigitalBegin:
-                    await _dialogs.DisplayAlertAsync("Alert", "Login can not start with a digital sign", "Ok");
+                    await _dialogs.DisplayAlertAsync("Alert", Resurces.Resource.AlertLoginDigit, "Ok");
                     break;
                 case CheckEnter.PasswordBigSmallLetterAndDigit:
-                    await _dialogs.DisplayAlertAsync("Alert", "The password must contain a big, low letter and digit", "Ok");
+                    await _dialogs.DisplayAlertAsync("Alert", Resurces.Resource.AlertPasLeterDigit, "Ok");
                     break;
                 default:
                     {
                         User.Login = Login;
                         User.Password = Password;
-                        await _addUserBase.UserAddAsync(User);
-                        var p = new NavigationParameters { { "pUser", User } };
-                        await _navigationService.GoBackAsync(p);
+                        int result = await _addUserBase.UserAddAsync(User);
+                        if (result > 0)
+                        {
+                            var p = new NavigationParameters { { "pUser", User } };
+                            await _navigationService.GoBackAsync(p);
+                        }
+                        else await _dialogs.DisplayAlertAsync("Alert", "Database failure!", "Ok");
                     }
                     break;
             }

@@ -18,17 +18,20 @@ namespace Contacts.Services.AddEditProfile
             _repository = repository;
         }
 
-        public async Task<int> AddEditExecute(string choice, ContactModel contact)
+        public async Task<int> AddEditExecute(ProfileType choise, ContactModel contact)
         {
-            int result;
-            if (choice == "Add Profile")
+            int result = 0;
+            switch (choise)
             {
-                result = await _repository.AddAsync(contact);
+                case ProfileType.Add:
+                    result = await _repository.AddAsync(contact);
+                    break;
+                case ProfileType.Edit:
+                    result = await _repository.UpdateAsync(contact);
+                    break;
+                default:
+                    break;
             }
-            else
-            {
-                result = await _repository.UpdateAsync(contact);
-            };
             return result;
         }
 

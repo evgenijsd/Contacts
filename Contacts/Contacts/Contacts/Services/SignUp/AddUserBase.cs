@@ -15,7 +15,13 @@ namespace Contacts.Services.SignUp
 
         public async Task<int> UserAddAsync(UserModel user)
         {
-            return await _repository.AddAsync(user);
+            int result = 0;
+            try
+            {
+                 result = await _repository.AddAsync(user);
+            }
+            catch { }
+            return result;
         }
 
         public async Task<int> CheckTheCorrectnessAsync(string Login, string Password, string ConfirmPassword)

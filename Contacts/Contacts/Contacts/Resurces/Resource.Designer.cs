@@ -178,6 +178,24 @@ namespace Contacts.Resurces {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на No profiles added..
+        /// </summary>
+        public static string LabelNoProfile {
+            get {
+                return ResourceManager.GetString("LabelNoProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Set dark theme.
+        /// </summary>
+        public static string LabelSetTheme {
+            get {
+                return ResourceManager.GetString("LabelSetTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на SIGN UP.
         /// </summary>
         public static string LabelSignUp {

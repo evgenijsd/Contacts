@@ -6,6 +6,7 @@ using Prism.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using Xamarin.Forms;
 
 namespace Contacts.ViewModels
@@ -122,7 +123,6 @@ namespace Contacts.ViewModels
             _allSetting.SortSet = SortSet;
             _allSetting.LangSet = CurrentLanguage.Key;
             _allSetting.ChangeLanguage((LangType)CurrentLanguage.Key);
-            //_dialogs.DisplayAlertAsync("Alert", $"{SortSet}    {_allSetting.SortSet}", "Ok");
             _allSetting.ThemeSet = _allSetting.ChangeTheme(Theme);
             var p = new NavigationParameters { { "sSet", SortSet } };
             await _navigationService.GoBackAsync(p);

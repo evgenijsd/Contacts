@@ -156,6 +156,12 @@
   <data name="LabelNickname" xml:space="preserve">
     <value>Sort by Nickname</value>
   </data>
+  <data name="LabelNoProfile" xml:space="preserve">
+    <value>No profiles added.</value>
+  </data>
+  <data name="LabelSetTheme" xml:space="preserve">
+    <value>Set dark theme</value>
+  </data>
   <data name="LabelSignUp" xml:space="preserve">
     <value>SIGN UP</value>
   </data>

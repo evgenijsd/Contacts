@@ -156,6 +156,12 @@
   <data name="LabelNickname" xml:space="preserve">
     <value>Сортировка по Нику</value>
   </data>
+  <data name="LabelNoProfile" xml:space="preserve">
+    <value>Профили не добавлены.</value>
+  </data>
+  <data name="LabelSetTheme" xml:space="preserve">
+    <value>Установить темную тему</value>
+  </data>
   <data name="LabelSignUp" xml:space="preserve">
     <value>РЕГИСТРАЦИЯ</value>
   </data>

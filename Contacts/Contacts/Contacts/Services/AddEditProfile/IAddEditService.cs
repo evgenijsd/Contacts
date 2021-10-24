@@ -8,7 +8,7 @@ namespace Contacts.Services.AddEditProfile
 {
     public interface IAddEditService
     {
-        Task<int> AddEditExecute(string choise, ContactModel contact);
+        Task<int> AddEditExecute(ProfileType choise, ContactModel contact);
         Task<string> Photo(ImageChoise choise);
     }
 }

@@ -28,6 +28,14 @@ namespace Contacts.ViewModels
 
 
         #region -- Public properties --
+        private ProfileType _choise = ProfileType.Add;
+        public ProfileType Choise
+        {
+            get => _choise;
+            set => SetProperty(ref _choise, value);
+        }
+
+
 
         private bool _CanSave;
         public bool CanSave
@@ -42,7 +50,7 @@ namespace Contacts.ViewModels
             }
         }
 
-        private string _title = "Add Profile";
+        private string _title = Resurces.Resource.TitleAdd;
         public string Title
         {
             get => _title;
@@ -122,7 +130,8 @@ namespace Contacts.ViewModels
             parameterName = "maContact";
             if (parameters.ContainsKey(parameterName))
             {
-                Title = "Edit Profile";
+                Title = Resurces.Resource.TitleEdit;
+                Choise = ProfileType.Edit;
                 Contact = parameters.GetValue<ContactModel>(parameterName);
                 {
                     Id = Contact.Id;
@@ -184,7 +193,7 @@ namespace Contacts.ViewModels
                 Description = Description,
                 Date = DateTime.Now
             };
-            await _addEdit.AddEditExecute(Title, contact);
+            await _addEdit.AddEditExecute(Choise, contact);
             var p = new NavigationParameters { { "amContact", contact } };
             await _navigationService.GoBackAsync(p);
         }

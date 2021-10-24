@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Threading;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -8,6 +9,8 @@ namespace Contacts.Services.Settings
 {
     public class AllSetting : IAllSetting
     {
+
+        #region -- Public properties --
         public int SortSet
         {
             get => Preferences.Get(nameof(SortSet), (int)SortType.SortByName);
@@ -40,22 +43,20 @@ namespace Contacts.Services.Settings
             }
             return result;
         }
+        #endregion
 
         public void ChangeLanguage(LangType language)
         {
             switch (language)
             {
                 case LangType.English:
-                    System.Globalization.CultureInfo.CurrentUICulture = System.Globalization.CultureInfo.GetCultureInfo("en");
+                    CultureInfo cien = new CultureInfo("en-US");
+                    CultureInfo.CurrentCulture = cien;
                     break;
                 case LangType.Russian:
-                    System.Globalization.CultureInfo.CurrentUICulture = System.Globalization.CultureInfo.GetCultureInfo("ru");
+                    CultureInfo ciru = new CultureInfo("ru-RU");
+                    CultureInfo.CurrentCulture = ciru;
                     break;
-                    /*System.Resources.Configuration.Locale = new Locale(lang);
-                    Resources.UpdateConfiguration(Resources.Configuration, Resources.DisplayMetrics);
-                    Thread.CurrentThread.CurrentCulture = culture;
-                    Thread.CurrentThread.CurrentUICulture = culture;
-                    Resurces.Culture = culture;*/
             }
             
         }
@@ -64,8 +65,8 @@ namespace Contacts.Services.Settings
         {
             var Lang = new ObservableCollection<LangModel>()
             {
-                new LangModel {Key=(int)LangType.English, Lang="English"},
-                new LangModel {Key=(int)LangType.Russian, Lang="Russian"}
+                new LangModel {Key=(int)LangType.English, Lang=Resurces.Resource.LangEng},
+                new LangModel {Key=(int)LangType.Russian, Lang=Resurces.Resource.LangRus}
             };
             return Lang;     
         }

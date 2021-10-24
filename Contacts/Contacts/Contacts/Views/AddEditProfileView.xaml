@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:res="clr-namespace:Contacts.Services;assembly=Contacts"
              x:Class="Contacts.Views.AddEditProfileView" 
              Title="{Binding Title}"
              BackgroundColor="{AppThemeBinding Light={StaticResource LightPageBackgroundColor}, Dark={StaticResource DarkPageBackgroundColor}}">
@@ -19,9 +20,9 @@
             </Image.GestureRecognizers>
         </Image>
         <StackLayout Grid.Row="1" Padding="30,10">
-            <Entry Placeholder="Nickname" Text="{Binding Nickname}" Style="{StaticResource EntryStyle}" />
-            <Entry Placeholder="Name" Text="{Binding Name}" Style="{StaticResource EntryStyle}" />
+            <Entry Placeholder="{res:Translate PlaceholderNickName}" Text="{Binding Nickname}" Style="{StaticResource EntryStyle}" />
+            <Entry Placeholder="{res:Translate PlaceholderName}" Text="{Binding Name}" Style="{StaticResource EntryStyle}" />
         </StackLayout>
-        <Editor Grid.Row="2" HeightRequest="170" MaxLength="120" Placeholder="Description" BackgroundColor="LightGray" Margin="30,0,30,30" Text="{Binding Description}"/>
+        <Editor Grid.Row="2" HeightRequest="170" MaxLength="120" Placeholder="{res:Translate PlaceholderDescription}" BackgroundColor="LightGray" Margin="30,0,30,30" Text="{Binding Description}"/>
     </Grid>
 </ContentPage>    
