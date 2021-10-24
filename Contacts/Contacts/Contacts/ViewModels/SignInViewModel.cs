@@ -134,7 +134,7 @@ namespace Contacts.ViewModels
             }
             else
             {
-                await _dialogs.DisplayAlertAsync("Alert", Resurces.Resource.AlertSignIn, "Ok");
+                await _dialogs.DisplayAlertAsync(Resurces.Resource.Alert, Resurces.Resource.AlertSignIn, "Ok");
                 Password = string.Empty;
             }
         }

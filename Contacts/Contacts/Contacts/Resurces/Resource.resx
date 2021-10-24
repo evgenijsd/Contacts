@@ -120,6 +120,9 @@
   <data name="AlerPasswordConfirm" xml:space="preserve">
     <value>Password and confirm password do not coincide</value>
   </data>
+  <data name="Alert" xml:space="preserve">
+    <value>Alert</value>
+  </data>
   <data name="AlertLoginDigit" xml:space="preserve">
     <value>Login can not start with a digital sign</value>
   </data>
@@ -143,6 +146,21 @@
   </data>
   <data name="ButtonSignUp" xml:space="preserve">
     <value>SIGN UP</value>
+  </data>
+  <data name="Camera" xml:space="preserve">
+    <value>Take photo with camera</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DeleteProfile" xml:space="preserve">
+    <value>Are you sure you want to remove contact?</value>
+  </data>
+  <data name="Gallery" xml:space="preserve">
+    <value>Pick at Gallery</value>
   </data>
   <data name="LabelDate" xml:space="preserve">
     <value>Sort by Date</value>
@@ -200,6 +218,9 @@
   </data>
   <data name="PlaceholderPassword" xml:space="preserve">
     <value>Password</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Choose Type</value>
   </data>
   <data name="TitleAdd" xml:space="preserve">
     <value>Add Profile</value>

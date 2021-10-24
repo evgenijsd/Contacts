@@ -87,22 +87,22 @@ namespace Contacts.ViewModels
             switch (check)
             {
                 case CheckEnter.LoginLengthNotValid:
-                    await _dialogs.DisplayAlertAsync("Alert", Resurces.Resource.AlertLoginLength, "Ok");
+                    await _dialogs.DisplayAlertAsync(Resurces.Resource.Alert, Resurces.Resource.AlertLoginLength, "Ok");
                     break;
                 case CheckEnter.PasswordLengthNotValid:
-                    await _dialogs.DisplayAlertAsync("Alert", Resurces.Resource.AlertPasswordLength, "Ok");
+                    await _dialogs.DisplayAlertAsync(Resurces.Resource.Alert, Resurces.Resource.AlertPasswordLength, "Ok");
                     break;
                 case CheckEnter.PasswordsNotEqual:
-                    await _dialogs.DisplayAlertAsync("Alert", Resurces.Resource.AlerPasswordConfirm, "Ok");
+                    await _dialogs.DisplayAlertAsync(Resurces.Resource.Alert, Resurces.Resource.AlerPasswordConfirm, "Ok");
                     break;
                 case CheckEnter.LoginExist:
-                    await _dialogs.DisplayAlertAsync("Alert", Resurces.Resource.AlertLoginTaken, "Ok");
+                    await _dialogs.DisplayAlertAsync(Resurces.Resource.Alert, Resurces.Resource.AlertLoginTaken, "Ok");
                     break;
                 case CheckEnter.LoginNotDigitalBegin:
-                    await _dialogs.DisplayAlertAsync("Alert", Resurces.Resource.AlertLoginDigit, "Ok");
+                    await _dialogs.DisplayAlertAsync(Resurces.Resource.Alert, Resurces.Resource.AlertLoginDigit, "Ok");
                     break;
                 case CheckEnter.PasswordBigSmallLetterAndDigit:
-                    await _dialogs.DisplayAlertAsync("Alert", Resurces.Resource.AlertPasLeterDigit, "Ok");
+                    await _dialogs.DisplayAlertAsync(Resurces.Resource.Alert, Resurces.Resource.AlertPasLeterDigit, "Ok");
                     break;
                 default:
                     {

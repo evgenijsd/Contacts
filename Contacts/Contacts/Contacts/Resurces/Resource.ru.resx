@@ -120,6 +120,9 @@
   <data name="AlerPasswordConfirm" xml:space="preserve">
     <value>Пароль и подтверждение пароля не совпадают</value>
   </data>
+  <data name="Alert" xml:space="preserve">
+    <value>Внимание</value>
+  </data>
   <data name="AlertLoginDigit" xml:space="preserve">
     <value>Логин не может начинаться с цифры</value>
   </data>
@@ -143,6 +146,21 @@
   </data>
   <data name="ButtonSignUp" xml:space="preserve">
     <value>РЕГИСТРАЦИЯ</value>
+  </data>
+  <data name="Camera" xml:space="preserve">
+    <value>Создать фото с камеры</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Отменить</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="DeleteProfile" xml:space="preserve">
+    <value>Вы уверены, что хотите удалить профиль?</value>
+  </data>
+  <data name="Gallery" xml:space="preserve">
+    <value>Выбрать в галерее</value>
   </data>
   <data name="LabelDate" xml:space="preserve">
     <value>Сортировка по Дате</value>
@@ -200,6 +218,9 @@
   </data>
   <data name="PlaceholderPassword" xml:space="preserve">
     <value>Пароль</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Выберите тип</value>
   </data>
   <data name="TitleAdd" xml:space="preserve">
     <value>Добавить профиль</value>

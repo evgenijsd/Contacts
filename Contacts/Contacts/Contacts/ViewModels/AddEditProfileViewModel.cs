@@ -169,10 +169,9 @@ namespace Contacts.ViewModels
         private void OnImageCommand()
         {
             var actionSheetConfig = new ActionSheetConfig()
-                .SetTitle("Choose Type")
-                .SetMessage("Image")
-                .Add("Pick at Gallery", () => this.ResultGalleryPhoto(ImageChoise.gallery), "gallery.png")
-                .Add("Take photo with camera ", () => this.ResultGalleryPhoto(ImageChoise.camera), "photo.png");
+                .SetTitle(Resurces.Resource.Title)
+                .Add(Resurces.Resource.Gallery, () => this.ResultGalleryPhoto(ImageChoise.gallery), "gallery.png")
+                .Add(Resurces.Resource.Camera, () => this.ResultGalleryPhoto(ImageChoise.camera), "photo.png");
             var confirm = UserDialogs.Instance.ActionSheet(actionSheetConfig);
         }
 

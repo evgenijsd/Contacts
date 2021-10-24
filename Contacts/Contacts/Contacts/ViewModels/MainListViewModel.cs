@@ -169,9 +169,9 @@ namespace Contacts.ViewModels
             {
                 var confirmConfig = new ConfirmConfig()
                 {
-                    Message = "Are you sure you want to remove contact?",
-                    OkText = "Delete",
-                    CancelText = "Cancel"
+                    Message = Resurces.Resource.DeleteProfile,
+                    OkText = Resurces.Resource.Delete,
+                    CancelText = Resurces.Resource.Cancel
                 };
                 var confirm = await UserDialogs.Instance.ConfirmAsync(confirmConfig);
                 if (confirm)
